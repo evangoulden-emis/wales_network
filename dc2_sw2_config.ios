@@ -2,6 +2,9 @@
 feature bgp   ! Enable BGP feature
 feature interface-vlan    ! Enable VLAN interface feature
 
+interface loopback100
+  ip address 169.254.255.4/32
+
 interface Ethernet1/1
   description "DX-Connection-2-DC2" ! # Add DXCON ID
   switchport mode trunk
