@@ -23,9 +23,9 @@ router bgp 64523
  bgp graceful-restart
  timers bgp 10 30
  neighbor 169.254.1.10 remote-as 64533
- neighbor 169.254.1.10 description AWS-DX-1-DC1
+ neighbor 169.254.1.10 description AWS-DX-1-DC2
  neighbor 169.254.1.10 log-neighbor-changes
- neighbor 169.254.1.10 update-source Vlan101
+ neighbor 169.254.1.10 update-source Vlan103
  neighbor 169.254.1.10 fall-over bfd
  !
  address-family ipv4
