@@ -4,6 +4,8 @@ feature interface-vlan    ! Enable VLAN interface feature
 
 interface loopback100
   ip address 169.254.255.4/32
+  ip ospf 1 area 0
+  ip ospf network point-to-point
 
 interface Ethernet1/1
   description "DX-Connection-2-DC2" ! # Add DXCON ID
@@ -37,4 +39,9 @@ router bgp 64524
   neighbor 169.254.1.12 maximum-prefix 100 80
   maximum-paths 4
 
+
+router ospf 1
+ router-id 169.254.255.4
+ passive-interface default
+ no passive-interface Loopback100
 
