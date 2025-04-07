@@ -1,0 +1,18 @@
+ip prefix-list LOCAL-ROUTES seq 10 permit <your-local-prefix>/24
+route-map AWS-OUT permit 10
+  match ip address prefix-list LOCAL-ROUTES
+
+! Apply route-map to all neighbors
+router bgp <your-asn>
+  neighbor 169.254.1.2
+    address-family ipv4 unicast
+      route-map AWS-OUT out
+  neighbor 169.254.2.2
+    address-family ipv4 unicast
+      route-map AWS-OUT out
+  neighbor 169.254.3.2
+    address-family ipv4 unicast
+      route-map AWS-OUT out
+  neighbor 169.254.4.2
+    address-family ipv4 unicast
+      route-map AWS-OUT out
