@@ -1,0 +1,72 @@
+0.0.0.0/0, ubest/mbest: 1/0
+    *via 10.63.75.1, [1/0], 45w5d, static
+10.57.1.4/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.1.12/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.1.20/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.1.28/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.1.36/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.13.42/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.97.66/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.97.67/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.97.69/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.192.229/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.192.230/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.192.231/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.196.208/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.196.210/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.57.196.247/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.72.0/25, ubest/mbest: 1/0
+    *via 10.63.72.254, [1/0], 45w5d, static
+10.63.75.80/28, ubest/mbest: 1/0
+    *via 10.63.72.254, [1/0], 45w5d, static
+10.63.77.0/27, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.77.32/27, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.77.96/27, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.78.0/25, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.78.128/25, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.79.64/29, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.79.80/28, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.79.96/28, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.80.0/26, ubest/mbest: 1/0
+    *via 10.63.72.254, [1/0], 25w0d, static
+10.63.81.64/26, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 25w0d, static
+10.63.208.0/25, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.208.128/25, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.209.0/25, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.209.128/27, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.209.160/27, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.209.224/27, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
+10.63.212.0/25, ubest/mbest: 1/0
+    *via 10.63.72.254, [1/0], 45w5d, static
+10.207.116.6/32, ubest/mbest: 1/0
+    *via 10.63.84.153, [1/0], 45w6d, static
