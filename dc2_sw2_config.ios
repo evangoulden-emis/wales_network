@@ -3,11 +3,11 @@ feature bgp   ! Enable BGP feature
 feature interface-vlan    ! Enable VLAN interface feature
 
 interface loopback100
-  ip address 169.254.255.4/32
+  ip address 169.254.255.4 255.255.255.255
   ip ospf 1 area 0
   ip ospf network point-to-point
 
-interface Ethernet1/1
+interface Ethernet0/1
   description "DX-Connection-2-DC2" ! # Add DXCON ID
   switchport mode trunk
   switchport trunk allowed vlan 104
@@ -19,7 +19,7 @@ vlan 104
 
 interface vlan 104
   description "DX-VIF-1-DC2"
-  ip address 169.254.1.11/30
+  ip address 169.254.1.13 255.255.255.252
   no shutdown
 
 router bgp 64524
@@ -27,11 +27,11 @@ router bgp 64524
  bgp log-neighbor-changes
  bgp graceful-restart
  timers bgp 10 30
- neighbor 169.254.1.12 remote-as 64534
- neighbor 169.254.1.12 description AWS-DX-2-DC2
- neighbor 169.254.1.12 log-neighbor-changes
- neighbor 169.254.1.12 update-source Vlan104
- neighbor 169.254.1.12 fall-over bfd
+ neighbor 169.254.1.14 remote-as 64534
+ neighbor 169.254.1.14 description AWS-DX-2-DC2
+ neighbor 169.254.1.14 log-neighbor-changes
+ neighbor 169.254.1.14 update-source Vlan104
+ neighbor 169.254.1.14 fall-over bfd
  neighbor 169.254.255.1 remote-as 64521
  neighbor 169.254.255.1 update-source Loopback100
  neighbor 169.254.255.1 fall-over bfd
@@ -43,9 +43,9 @@ router bgp 64524
  neighbor 169.254.255.3 fall-over bfd
  !
  address-family ipv4
-  neighbor 169.254.1.12 activate
-  neighbor 169.254.1.12 send-community both
-  neighbor 169.254.1.12 maximum-prefix 100 80
+  neighbor 169.254.1.14 activate
+  neighbor 169.254.1.14 send-community both
+  neighbor 169.254.1.14 maximum-prefix 100 80
   maximum-paths 4
 
 

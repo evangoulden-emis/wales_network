@@ -3,12 +3,12 @@ feature bgp   ! Enable BGP feature
 feature interface-vlan    ! Enable VLAN interface feature
 
 interface loopback100
-  ip address 169.254.255.1/32
+  ip address 169.254.255.1 255.255.255.255
   ip ospf 1 area 0
   ip ospf network point-to-point
 
 
-interface Ethernet1/1
+interface Ethernet0/1
   description "DX-Connection-1-DC1" ! # Add DXCON ID
   switchport mode trunk
   switchport trunk allowed vlan 101
@@ -20,7 +20,7 @@ vlan 101
 
 interface vlan 101
   description "DX-VIF-1-DC1"
-  ip address 169.254.1.1/30
+  ip address 169.254.1.1 255.255.255.252
   no shutdown
 
 router bgp 64521
