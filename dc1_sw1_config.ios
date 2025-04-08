@@ -34,13 +34,13 @@ router bgp 64521
  neighbor 169.254.1.2 update-source Vlan101
  neighbor 169.254.1.2 fall-over bfd
  neighbor 169.254.255.2 remote-as 64522
- neighbor 169.254.255.2 update-source Loopback0
+ neighbor 169.254.255.2 update-source Loopback100
  neighbor 169.254.255.2 fall-over bfd
  neighbor 169.254.255.3 remote-as 64523
- neighbor 169.254.255.3 update-source Loopback0
+ neighbor 169.254.255.3 update-source Loopback100
  neighbor 169.254.255.3 fall-over bfd
  neighbor 169.254.255.4 remote-as 64524
- neighbor 169.254.255.4 update-source Loopback0
+ neighbor 169.254.255.4 update-source Loopback100
  neighbor 169.254.255.4 fall-over bfd
 
  address-family ipv4
