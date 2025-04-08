@@ -1,0 +1,21 @@
+name                      id    vsys zone             forwarding               tag    address
+------------------------- ----- ---- ---------------- ------------------------ ------ ------------------
+ethernet1/1               16    1                     ha                       0      1.1.1.2/24
+ethernet1/2               17    1                     ha                       0      2.2.2.2/24
+ethernet1/3               18    1                     ha                       0      3.3.3.2/24
+ethernet1/4               19    1                     ha                       0      4.4.4.2/24
+ethernet1/5               20    1                     N/A                      0      N/A
+ethernet1/6               21    1                     N/A                      0      N/A
+ethernet1/7               22    1                     N/A                      0      N/A
+ethernet1/21              36    1                     N/A                      0      N/A
+ethernet1/21.210          266   1    VM-MGT           vr:vr1                   210    10.63.76.1/25
+ethernet1/21.215          267   1    Witness          vr:vr1                   215    10.63.77.65/27
+ethernet1/21.219          268   1    Device-MGT       vr:vr1                   219    10.63.79.1/26
+ethernet1/21.220          269   1    Front-End_LB-TIP vr:vr1                   220    192.168.55.1/25
+ethernet1/21.221          270   1    vROPS            vr:vr1                   221    10.63.79.81/28
+ethernet1/21.410          271   1    SYM-VM-MGT       vr:vr1                   410    10.63.209.1/25
+ethernet1/21.415          272   1    SYM-WITNESS      vr:vr1                   415    10.63.209.193/27
+ethernet1/21.416          275   1    SYM-PUBLIC       vr:vr1                   416    10.63.208.2/25
+ethernet1/21.420          273   1    SYM-OUTSIDE      vr:vr1                   420    10.63.207.1/25
+ethernet1/21.450          274   1    UNTRUST          vr:vr1                   450    10.63.76.254/25
+ethernet1/21.810          256   1    VM-MGT           vr:vr1                   810    10.63.81.1/26

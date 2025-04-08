@@ -1,0 +1,18 @@
+reth1.0                 up    up   inet     10.63.72.254/25
+reth2                   up    up
+reth2.119               up    up   inet     10.63.75.1/26
+reth2.32767             up    up
+reth3                   up    up
+reth3.110               up    up   inet     10.63.72.1/25
+reth3.121               up    up   inet     10.63.75.81/28
+reth3.310               up    up   inet     10.63.212.1/25
+reth3.610               up    up   inet     10.63.80.1/26
+reth3.32767             up    up
+reth4                   up    up
+reth4.120               up    up   inet     192.168.45.1/25
+reth4.316               up    up   inet     10.63.211.2/25
+reth4.320               up    up   inet     10.63.210.1/25
+reth4.32767             up    up
+reth5                   up    up
+reth5.115               up    up   inet     10.63.73.65/27
+reth5.315               up    up   inet     10.63.212.193/27

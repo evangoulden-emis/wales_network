@@ -1,0 +1,1054 @@
+!Command: show running-config
+!Running configuration last done at: Mon Dec  9 12:30:32 2024
+!Time: Tue Apr  8 12:11:28 2025
+
+version 10.4(3) Bios:version 01.09
+hostname WBGF01-N9K-C93180YC-FX002
+vdc WBGF01-N9K-C93180YC-FX002 id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 511
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+cfs eth distribute
+feature scheduler
+feature interface-vlan
+feature hsrp
+feature lacp
+feature vpc
+feature lldp
+clock summer-time UTC 2 Sun Mar 02:00 1 Sun Nov 02:00 60
+feature sflow
+
+archive
+  path ftp://ftpuser:ftpuser@10.63.75.4/ftpuser/Blaenavon/9K-switch/
+  time-period 10080
+  write-memory
+
+no password strength-check
+username admin password 5 $5$DEPHGM$Ob1oNhiD84uGu2zo3HJmPRFBoP0.D08VcM/X.QCcs83  role network-admin
+username snmpuser password 5 $5$KHGANO$ky8Como69/zA5LEG7.217857/1TpLlFKiHHFP.KBTIC  role network-operator
+username snmpuser passphrase  lifetime 99999 warntime 14 gracetime 3
+username ahmedd password 5 $5$HCAOGP$MIMGT7DoqQCYfFm6FXb1TJEcNjCmJACwyEIMv5NRuy7  role network-operator
+username ahmedd role network-admin
+username ahmedd passphrase  lifetime 99999 warntime 14 gracetime 3
+username netadmin password 5 $5$MBKBNL$P2IKfqmjpjfXJFWoMjYmLwbnx9KywHvTjQhs4aVPrpA  role network-operator
+username netadmin role network-admin
+username netadmin passphrase  lifetime 99999 warntime 14 gracetime 3
+
+banner motd #
+| ----------------------------------------------------------------------------
+|               $7
+|              $$=$~
+|             $7  ,$,
+|  I?=       $$    7$       ,~=
+|  7I?7$77:  $=    :$   ++++=~=   $$$$$$$$$$  $$$$     $$$$  $$   $$$$$$$$$
+|  77     7$+$      $~==:    +=  $$$          $$$$$   $$$$$  $$  $$$$   $$$$
+|  :7       $8      O?       +:  $$$          $$ $$$ $$$ $$  $$  $$$
+|   I7       8?    :Z       =+   $$$$$$$$$$   $$  $$$$$  $$  $$  $$$$$$$$
+|    77      88    ZZ      =+    $$$$$$$$$$   $$   $$$   $$  $$     $$$$$$$$
+|     +77     8O  ,O,    =+~     $$$          $$    $    $$  $$          $$$
+|       7$$:   88~Z+   ++=       $$$$$$$$$$$  $$         $$  $$  $$$$   $$$$
+|          777$$8O+==++           $$$$$$$$$$  $$         $$  $$   $$$$$$$$$
+|
+|
+|          $(hostname)
+| ----------------------------------------------------------------------------
+Access to this device is restricted to EMIS network services staff only.
+Unauthorised access is strictly prohibited.
+
+#
+
+ip domain-lookup
+ip domain-name emis.com
+crypto key generate rsa label WBGF01-N9K-C93180YC-FX001 modulus 1024
+track 1 interface Ethernet1/2 line-protocol
+track 2 interface Ethernet1/3 line-protocol
+track 3 interface Ethernet1/4 line-protocol
+track 4 interface Ethernet1/5 line-protocol
+track 5 interface Ethernet1/6 line-protocol
+track 6 interface Ethernet1/47 line-protocol
+track 7 interface Ethernet1/48 line-protocol
+track 10 list boolean and
+  object 1
+  object 2
+  object 3
+  object 4
+  object 5
+  object 6
+  object 7
+copp profile strict
+snmp-server user admin network-admin auth md5 2170C40CD0EE84179D4FE4FA713DE62399D4 priv aes-128 055EDD54B71942DD06D06200F0B827DB267B localizedV2key
+snmp-server user ahmedd network-operator auth md5 331966EDEF39A44E4D02354F0E1297AD8F1E priv aes-128 176D7AC69A4B9C7538006502100F92B39410 localizedV2key
+snmp-server user ahmedd network-admin
+snmp-server user netadmin network-operator auth md5 043EDCFC922FF60593FD8955AA20D6DBA800 priv aes-128 2175F2C8FF5AE11183FAD308F577A4C3E80A localizedV2key
+snmp-server user netadmin network-admin
+snmp-server user snmpuser network-operator auth md5 206A9211F5470D02B0A6E52B1FEF2DD7F35F priv aes-128 17598A20D9C79BA50B5432E59378BE196ACD localizedV2key
+snmp-server host 10.63.75.4 traps version 2c ciscopub
+snmp-server host 10.63.75.4 use-vrf default
+rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+snmp-server enable traps callhome event-notify
+snmp-server enable traps callhome smtp-send-fail
+snmp-server enable traps cfs state-change-notif
+snmp-server enable traps cfs merge-failure
+snmp-server enable traps aaa server-state-change
+snmp-server enable traps hsrp state-change
+snmp-server enable traps feature-control FeatureOpStatusChange
+snmp-server enable traps sysmgr cseFailSwCoreNotifyExtended
+snmp-server enable traps config ccmCLIRunningConfigChanged
+snmp-server enable traps snmp authentication
+snmp-server enable traps link cisco-xcvr-mon-status-chg
+snmp-server enable traps vtp notifs
+snmp-server enable traps vtp vlancreate
+snmp-server enable traps vtp vlandelete
+snmp-server enable traps bridge newroot
+snmp-server enable traps bridge topologychange
+snmp-server enable traps stpx inconsistency
+snmp-server enable traps stpx root-inconsistency
+snmp-server enable traps stpx loop-inconsistency
+snmp-server enable traps system Clock-change-notification
+snmp-server enable traps feature-control ciscoFeatOpStatusChange
+snmp-server enable traps mmode cseNormalModeChangeNotify
+snmp-server enable traps mmode cseMaintModeChangeNotify
+snmp-server enable traps syslog message-generated
+snmp-server community ciscopub group network-operator
+ntp server 10.57.0.171 use-vrf default
+ntp server 10.57.1.22 use-vrf default
+no errdisable detect cause link-flap
+no errdisable detect cause loopback
+
+ip route 0.0.0.0/0 10.63.75.1 name Default-Route
+ip route 10.57.1.4/32 10.63.84.153 name Route-to-Newport-DNS
+ip route 10.57.1.12/32 10.63.84.153 name Route-to-Newport-DNS
+ip route 10.57.1.20/32 10.63.84.153 name Route-to-Newport-DNS
+ip route 10.57.1.28/32 10.63.84.153 name Route-to-Blaenavon-DNS
+ip route 10.57.1.36/32 10.63.84.153 name Route-to-Newport-DNS
+ip route 10.57.13.42/32 10.63.84.153
+ip route 10.57.97.66/32 10.63.84.153 name Route-to-Blaenavon-DC1
+ip route 10.57.97.67/32 10.63.84.153 name Route-to-Blaenavon-DC2
+ip route 10.57.97.69/32 10.63.84.153 name Route-to-Blaenavon-DC3
+ip route 10.57.192.229/32 10.63.84.153 name Route-to-Newport-DC1
+ip route 10.57.192.230/32 10.63.84.153 name Route-to-Newport-DC2
+ip route 10.57.192.231/32 10.63.84.153 name Route-to-Newport-DC3
+ip route 10.57.196.208/32 10.63.84.153
+ip route 10.57.196.210/32 10.63.84.153
+ip route 10.57.196.247/32 10.63.84.153
+ip route 10.63.72.0/25 10.63.72.254 name route-to-BL-VM-MGT
+ip route 10.63.75.80/28 10.63.72.254 name route-to-BL-Cluster-Analytics
+ip route 10.63.77.0/27 10.63.84.153 name route-to-NP-Guest-Cluster
+ip route 10.63.77.32/27 10.63.84.153 name route-to-NP-AG-Rep
+ip route 10.63.77.96/27 10.63.84.153 name route-to-NP-Backup
+ip route 10.63.78.0/25 10.63.84.153 name route-to-NP-Public
+ip route 10.63.78.128/25 10.63.84.153 name route-to-NP-Private
+ip route 10.63.79.64/29 10.63.84.153 name route-to-NP-ToR-LB_Interconnect
+ip route 10.63.79.80/28 10.63.84.153 name route-to-NP-Cluster-Analytics
+ip route 10.63.79.96/28 10.63.84.153 name route-to-NP-vSphere-Replication
+ip route 10.63.80.0/26 10.63.72.254 name route-to-New-CDC-VM-MGT
+ip route 10.63.81.64/26 10.63.84.153 name route-to-New-NP-Private
+ip route 10.63.208.0/25 10.63.84.153 name route-to-NP-SYM-Public
+ip route 10.63.208.128/25 10.63.84.153 name route-to-NP-SYM-Private
+ip route 10.63.209.0/25 10.63.84.153
+ip route 10.63.209.128/27 10.63.84.153 name route-to-NP-SYM-GuestCLuster
+ip route 10.63.209.160/27 10.63.84.153 name route-to-NP-SYM-AGReplication
+ip route 10.63.209.224/27 10.63.84.153 name route-to-NP-SYM-Backup
+ip route 10.63.212.0/25 10.63.72.254 name route-to-BN-SYM-VM-MGT
+ip route 10.207.116.6/32 10.63.84.153 name Route-back-for-traffic-originating-from-EWEBLOGS
+vlan 1,3,5,110-122,124-125,128-129,310,312-317,320,610,617,800,1203-1205,1209,2000
+vlan 3
+  name NATIVE-on-BAGG-1
+vlan 5
+  name NATIVE-on-BAGG-2
+vlan 110
+  name VM-Management
+vlan 111
+  name VSAN
+vlan 112
+  name Guest-Cluster
+vlan 113
+  name AG-Replication
+vlan 114
+  name Backup
+vlan 115
+  name Witness
+vlan 116
+  name Public-LB-APP
+vlan 117
+  name Private
+vlan 118
+  name vMotion
+vlan 119
+  name iLO-Host-Network-MGMT
+vlan 120
+  name Front-End-Load-Balancer-TIPs
+vlan 121
+  name Analytics-Cluster
+vlan 122
+  name vSphere-Replication
+vlan 124
+  name ToR_LB_Interconnect
+vlan 125
+  name vCenter-HA
+vlan 128
+  name Misc-Backup
+vlan 129
+  name iSCSI
+vlan 310
+  name PDPG-Sym-VM
+vlan 312
+  name PDPG-Sym-GuestCluster
+vlan 313
+  name PDPG-Sym-AG-Replication
+vlan 314
+  name PDPG-Sym-Backup
+vlan 315
+  name PDPG-Sym-Witness
+vlan 316
+  name PDPG-Sym-Public
+vlan 317
+  name PDPG-Sym-Private
+vlan 320
+  name Sym-OUTSIDE
+vlan 610
+  name New-VM-Management
+vlan 617
+  name New-Private
+vlan 1203
+  name SRX-Proxied_Untrust
+vlan 1204
+  name Direct-to-Misc-Hosted-Endpoints
+vlan 1205
+  name EMIS->NWIS-Routing-Interconnect
+vlan 1209
+  name PDPG-Direct-to-Misc-Sym
+vlan 2000
+  name NATIVE-to-9200to9ks
+
+spanning-tree vlan 2-5,110-122,124-125,128-129,310,312-317,320,800,1203-1205,1209,2000 priority 0
+vrf context management
+vpc domain 1
+  peer-switch
+  peer-keepalive destination 172.16.1.2 source 172.16.1.1 vrf default
+  peer-gateway
+  layer3 peer-router
+
+
+interface Vlan1
+  no shutdown
+  no ip redirects
+  no ipv6 redirects
+
+interface Vlan112
+  no shutdown
+  no ip redirects
+  ip address 10.63.73.15/27
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 112
+    preempt
+    ip 10.63.73.1
+
+interface Vlan113
+  no shutdown
+  no ip redirects
+  ip address 10.63.73.46/27
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 113
+    preempt
+    priority 110
+    ip 10.63.73.33
+
+interface Vlan114
+  no shutdown
+  no ip redirects
+  ip address 10.63.73.126/27
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 114
+    preempt
+    ip 10.63.73.97
+
+interface Vlan116
+  no shutdown
+  no ip redirects
+  ip address 10.63.74.80/25
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 116
+    preempt
+    ip 10.63.74.1
+
+interface Vlan117
+  no shutdown
+  no ip redirects
+  ip address 10.63.74.133/25
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 117
+    preempt
+    priority 110
+    ip 10.63.74.129
+
+interface Vlan119
+  no shutdown
+  no ip redirects
+  ip address 10.63.75.42/26
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 119
+    preempt
+    priority 110
+    ip 10.63.75.2
+
+interface Vlan122
+  no shutdown
+  no ip redirects
+  ip address 10.63.75.108/28
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 122
+    preempt
+    ip 10.63.75.97
+
+interface Vlan124
+  no shutdown
+  no ip redirects
+  ip address 10.63.75.68/29
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 124
+    preempt
+    ip 10.63.75.65
+
+interface Vlan312
+  no shutdown
+  no ip redirects
+  ip address 10.63.212.146/27
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 312
+    preempt
+    ip 10.63.212.129
+
+interface Vlan313
+  no shutdown
+  no ip redirects
+  ip address 10.63.212.169/27
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 313
+    preempt
+    priority 110
+    ip 10.63.212.161
+
+interface Vlan314
+  no shutdown
+  no ip redirects
+  ip address 10.63.212.240/27
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 314
+    preempt
+    ip 10.63.212.225
+
+interface Vlan316
+  no shutdown
+  no ip redirects
+  ip address 10.63.211.62/25
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 316
+    preempt
+    ip 10.63.211.1
+
+interface Vlan317
+  no shutdown
+  no ip redirects
+  ip address 10.63.211.189/25
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 317
+    preempt
+    priority 110
+    ip 10.63.211.129
+
+interface Vlan617
+  no shutdown
+  no ip redirects
+  ip address 10.63.80.67/26
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 617
+    preempt
+    priority 110
+    ip 10.63.80.65
+
+interface Vlan1203
+  no shutdown
+  no ip redirects
+  ip address 10.63.72.190/25
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 1203
+    preempt
+    priority 110
+    ip 10.63.72.250
+
+interface Vlan1205
+  no shutdown
+  no ip redirects
+  ip address 10.63.84.157/29
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 1205
+    preempt
+    priority 110
+    ip 10.63.84.154
+
+interface port-channel1
+  switchport
+  switchport mode trunk
+  spanning-tree port type network
+  vpc peer-link
+
+interface port-channel2
+  description 'c9200-00-link'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 1,110,119,610,2000
+  spanning-tree port type normal
+  vpc 2
+
+interface port-channel3
+  description 'c9200-01-link'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 1,110,119,610,2000
+  spanning-tree port type normal
+  vpc 3
+
+interface port-channel4
+  description 'DHCW Bundle 1'
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 3
+  switchport trunk allowed vlan 1203
+  spanning-tree port type normal
+  vpc 4
+
+interface port-channel5
+  description 'DHCW Bundle 2'
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 5
+  switchport trunk allowed vlan 800,1205,1209
+  spanning-tree port type normal
+  vpc 5
+
+interface port-channel6
+  description 'Debien MGT'
+  switchport
+  switchport access vlan 119
+  spanning-tree port type normal
+  vpc 6
+
+interface port-channel7
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,115,119-121,310,315-316,320,610,1203
+  spanning-tree port type normal
+  vpc 7
+
+interface port-channel8
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,115,119-121,310,315-316,320,610,1203
+  spanning-tree port type normal
+  vpc 8
+
+interface port-channel11
+  description 'ESXi001 Bundle 1 - vmnic 4&7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  spanning-tree port type normal
+  vpc 11
+
+interface port-channel12
+  description 'ESXi002 Bundle 1 - vmnic 4&7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  spanning-tree port type normal
+  vpc 12
+
+interface port-channel13
+  description 'ESXi003 Bundle 1 - vmnic 4&7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  spanning-tree port type normal
+  vpc 13
+
+interface port-channel14
+  description 'ESXi004 Bundle 1 - vmnic 4&7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  spanning-tree port type normal
+  vpc 14
+
+interface port-channel15
+  description 'ESXi005 Bundle 1 - vmnic 4&7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  spanning-tree port type normal
+  vpc 15
+
+interface port-channel16
+  description 'ESXi006 Bundle 1 - vmnic 4&7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  spanning-tree port type normal
+  vpc 16
+
+interface port-channel17
+  description 'ESXi007 Bundle 1 - vmnic 4&7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  spanning-tree port type normal
+  vpc 17
+
+interface port-channel18
+  description 'ESXi008 Bundle 1 - vmnic 4&7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  spanning-tree port type normal
+  vpc 18
+
+interface port-channel19
+  description 'ESXi009 Bundle 1 - vmnic 4&7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  spanning-tree port type normal
+  vpc 19
+
+interface port-channel21
+  description 'ESXi001 Bundle 2 - vmnic 5&6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  spanning-tree port type normal
+  vpc 21
+
+interface port-channel22
+  description 'ESXi002 Bundle 2 - vmnic 5&6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  spanning-tree port type normal
+  vpc 22
+
+interface port-channel23
+  description 'ESXi003 Bundle 2 - vmnic 5&6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  spanning-tree port type normal
+  vpc 23
+
+interface port-channel24
+  description 'ESXi004 Bundle 2 - vmnic 5&6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  spanning-tree port type normal
+  vpc 24
+
+interface port-channel25
+  description 'ESXi005 Bundle 2 - vmnic 5&6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  spanning-tree port type normal
+  vpc 25
+
+interface port-channel26
+  description 'ESXi006 Bundle 2 - vmnic 5&6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  spanning-tree port type normal
+  vpc 26
+
+interface port-channel27
+  description 'ESXi007 Bundle 2 - vmnic 5&6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  spanning-tree port type normal
+  vpc 27
+
+interface port-channel28
+  description 'ESXi008 Bundle 2 - vmnic 5&6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  spanning-tree port type normal
+  vpc 28
+
+interface port-channel29
+  description 'ESXi009 Bundle 2 - vmnic 5&6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  spanning-tree port type normal
+  vpc 29
+
+interface port-channel30
+  description 'Veritas netbackup - ETH3'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,128,310,312-317,610,617,800,1209
+  spanning-tree port type normal
+  vpc 30
+
+interface Ethernet1/1
+  ip address 172.16.1.1/30
+  no shutdown
+
+interface Ethernet1/2
+  description "WBGF01-SRX340 Cluster P1/2"
+  switchport
+  switchport access vlan 1203
+  no shutdown
+
+interface Ethernet1/3
+  description "WBGF01-SRX340 Cluster P1/3"
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 119
+  no shutdown
+
+interface Ethernet1/4
+  description "WBGF01-SRX340 Cluster P1/4"
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,121,310,320,610
+  no shutdown
+
+interface Ethernet1/5
+  description "WBGF01-SRX340 Cluster P1/5"
+  switchport
+  switchport mode trunk
+  switchport access vlan 112
+  switchport trunk allowed vlan 120,316,320
+  no shutdown
+
+interface Ethernet1/6
+  description "WBGF01-SRX340 Cluster P1/6"
+  switchport
+  switchport mode trunk
+  switchport access vlan 113
+  switchport trunk allowed vlan 115,315
+  no shutdown
+
+interface Ethernet1/7
+  description ESXi001 Bundle 1 - vmnic 7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  channel-group 11 mode active
+  no shutdown
+
+interface Ethernet1/8
+  description ESXi001 Bundle 2 - vmnic 6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  channel-group 21 mode active
+  no shutdown
+
+interface Ethernet1/9
+  description ESXi002 Bundle 1 - vmnic 7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  channel-group 12 mode active
+  no shutdown
+
+interface Ethernet1/10
+  description ESXi002 Bundle 2 - vmnic 6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  channel-group 22 mode active
+  no shutdown
+
+interface Ethernet1/11
+  description ESXi003 Bundle 1 - vmnic 7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  channel-group 13 mode active
+  no shutdown
+
+interface Ethernet1/12
+  description ESXi003 Bundle 2 - vmnic 6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  channel-group 23 mode active
+  no shutdown
+
+interface Ethernet1/13
+  description ESXi004 Bundle 1 - vmnic 7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  channel-group 14 mode active
+  no shutdown
+
+interface Ethernet1/14
+  description ESXi004 Bundle 2 - vmnic 6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  channel-group 24 mode active
+  no shutdown
+
+interface Ethernet1/15
+  description ESXi005 Bundle 1 - vmnic 7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  channel-group 15 mode active
+  no shutdown
+
+interface Ethernet1/16
+  description ESXi005 Bundle 2 - vmnic 6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  channel-group 25 mode active
+  no shutdown
+
+interface Ethernet1/17
+  description ESXi006 Bundle 1 - vmnic 7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  channel-group 16 mode active
+  no shutdown
+
+interface Ethernet1/18
+  description ESXi006 Bundle 2 - vmnic 6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  channel-group 26 mode active
+  no shutdown
+
+interface Ethernet1/19
+  description ESXi007 Bundle 1 - vmnic 7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  channel-group 17 mode active
+  no shutdown
+
+interface Ethernet1/20
+  description ESXi007 Bundle 2 - vmnic 6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  channel-group 27 mode active
+  no shutdown
+
+interface Ethernet1/21
+  description ESXi008 Bundle 1 - vmnic 7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  channel-group 18 mode active
+  no shutdown
+
+interface Ethernet1/22
+  description ESXi008 Bundle 2 - vmnic 6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  channel-group 28 mode active
+  no shutdown
+
+interface Ethernet1/23
+  description ESXi009 Bundle 1 - vmnic 7'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  channel-group 19 mode active
+  no shutdown
+
+interface Ethernet1/24
+  description ESXi009 Bundle 2 - vmnic 6'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,310,312-317,610,617,800,1209
+  channel-group 29 mode active
+  no shutdown
+
+interface Ethernet1/25
+  description 'c9200-00-link'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 1,110,119,610,2000
+  channel-group 2
+  no shutdown
+
+interface Ethernet1/26
+  description 'c9200-01-link'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 1,110,119,610,2000
+  channel-group 3
+  no shutdown
+
+interface Ethernet1/27
+  description 'Debien MGT'
+  switchport
+  switchport access vlan 119
+  channel-group 6 mode active
+  no shutdown
+
+interface Ethernet1/28
+  description Sniffer
+  switchport
+  switchport monitor
+  no shutdown
+
+interface Ethernet1/29
+  description 'Veritas netbackup - ETH3'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,112-117,121,125,128,310,312-317,610,617,800,1209
+  channel-group 30 mode active
+  no shutdown
+
+interface Ethernet1/30
+
+interface Ethernet1/31
+
+interface Ethernet1/32
+
+interface Ethernet1/33
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,119,610
+  no shutdown
+
+interface Ethernet1/34
+
+interface Ethernet1/35
+
+interface Ethernet1/36
+
+interface Ethernet1/37
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+  no shutdown
+
+interface Ethernet1/38
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 111,118-119,122,128-129
+
+interface Ethernet1/39
+
+interface Ethernet1/40
+  description Connected to Armin SPAN port
+  switchport
+  switchport monitor
+  no shutdown
+
+interface Ethernet1/41
+  description 'WBGF01-PA1410-001'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,115,119-121,310,315-316,320,610,1203
+  channel-group 7
+
+interface Ethernet1/42
+  description 'WBGF01-PA1410-002'
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 110,115,119-121,310,315-316,320,610,1203
+  channel-group 8
+
+interface Ethernet1/43
+  description "WBGF01-ALB-01ETH0 Pub_N_Xsite"
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 1,116,124,316
+  no shutdown
+
+interface Ethernet1/44
+  description "WBGF01-ALB-01ETH1 MGT"
+  switchport
+  switchport access vlan 119
+  no shutdown
+
+interface Ethernet1/45
+  description "WBGF01-ALB-01ETH2 Private"
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 1,117,121,317,617
+  no shutdown
+
+interface Ethernet1/46
+  description "WBGF01-ALB-01ETH3 Public TIPs"
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 120,320
+  no shutdown
+
+interface Ethernet1/47
+  description 'DHCW Bundle 1'
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 3
+  switchport trunk allowed vlan 1203
+  channel-group 4 mode active
+  no shutdown
+
+interface Ethernet1/48
+  description 'DHCW Bundle 2'
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 5
+  switchport trunk allowed vlan 800,1205,1209
+  channel-group 5 mode active
+  no shutdown
+
+interface Ethernet1/49
+  switchport
+  switchport mode trunk
+  channel-group 1
+  no shutdown
+
+interface Ethernet1/50
+
+interface Ethernet1/51
+
+interface Ethernet1/52
+
+interface Ethernet1/53
+
+interface Ethernet1/54
+  switchport
+  switchport mode trunk
+  channel-group 1
+  no shutdown
+
+interface mgmt0
+  vrf member management
+icam monitor scale
+
+line console
+line vty
+  exec-timeout 15
+boot nxos bootflash:/nxos64-cs.10.4.3.F.bin
+event manager applet HSRP-Interface-Down
+  event track 10 state down
+  action 1.0 cli conf
+  action 5.0 cli interface vlan 113
+  action 6.0 cli hsrp 113
+  action 7.0 cli priority 50
+  action 8.0 cli interface vlan 617
+  action 9.0 cli hsrp 617
+  action 10.0 cli priority 50
+  action 14.0 cli interface vlan 117
+  action 15.0 cli hsrp 117
+  action 16.0 cli priority 50
+  action 17.0 cli interface vlan 119
+  action 18.0 cli hsrp 119
+  action 19.0 cli priority 50
+  action 29.0 cli interface vlan 313
+  action 30.0 cli hsrp 313
+  action 31.0 cli priority 50
+  action 38.0 cli interface vlan 317
+  action 39.0 cli hsrp 317
+  action 40.0 cli priority 50
+  action 41.0 cli interface vlan 1203
+  action 42.0 cli hsrp 1203
+  action 43.0 cli priority 50
+  action 44.0 cli interface vlan 1205
+  action 45.0 cli hsrp 1205
+  action 46.0 cli priority 50
+  action 47.0 syslog msg HSRP priority has been changed due to interface is down
+event manager applet HSRP-Interface-UP
+  event track 10 state up
+  action 1.0 cli conf
+  action 5.0 cli interface vlan 113
+  action 6.0 cli hsrp 113
+  action 7.0 cli priority 110
+  action 8.0 cli interface vlan 617
+  action 9.0 cli hsrp 617
+  action 10.0 cli priority 110
+  action 14.0 cli interface vlan 117
+  action 15.0 cli hsrp 117
+  action 16.0 cli priority 110
+  action 17.0 cli interface vlan 119
+  action 18.0 cli hsrp 119
+  action 19.0 cli priority 110
+  action 29.0 cli interface vlan 313
+  action 30.0 cli hsrp 313
+  action 31.0 cli priority 110
+  action 38.0 cli interface vlan 317
+  action 39.0 cli hsrp 317
+  action 40.0 cli priority 110
+  action 41.0 cli interface vlan 1203
+  action 42.0 cli hsrp 1203
+  action 43.0 cli priority 110
+  action 44.0 cli interface vlan 1205
+  action 45.0 cli hsrp 1205
+  action 46.0 cli priority 110
+  action 47.0 syslog msg HSRP priority has been changed due to interface is UP
+monitor session 1
+  description "Sniffing DHCW traffic"
+  source interface port-channel4 both
+  source interface port-channel5 both
+  destination interface Ethernet1/28
+  no shut
+monitor session 3
+  description "Armis"
+  source interface port-channel2 both
+  source interface port-channel3 both
+  source interface port-channel4 both
+  source interface port-channel5 both
+  destination interface Ethernet1/40
+  no shut
+
+
+
+scheduler job name BACKUP_FTP_JOB_CDC
+  copy running-config ftp://ftpuser:ftpuser@10.63.75.4/ftpuser/Blaenavon/9K-switch/$(SWITCHNAME)-conf.$(TIMESTAMP)
+
+end-job
+
+scheduler schedule name SCHED_DAILY_CDC
+  job name BACKUP_FTP_JOB_CDC
+  time weekly 02:09:42
+
+
+WBGF01-N9K-C93180YC-FX002#

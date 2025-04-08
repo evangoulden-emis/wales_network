@@ -1,0 +1,77 @@
+Interface            IP Address      Interface Status
+Vlan212              10.63.77.19     protocol-up/link-up/admin-up
+Vlan213              10.63.77.50     protocol-up/link-up/admin-up
+Vlan214              10.63.77.117    protocol-up/link-up/admin-up
+Vlan216              10.63.78.80     protocol-up/link-up/admin-up
+Vlan217              10.63.78.243    protocol-up/link-up/admin-up
+Vlan219              10.63.79.39     protocol-up/link-up/admin-up
+Vlan222              10.63.79.108    protocol-up/link-up/admin-up
+Vlan224              10.63.79.68     protocol-up/link-up/admin-up
+Vlan412              10.63.209.149   protocol-up/link-up/admin-up
+Vlan413              10.63.209.177   protocol-up/link-up/admin-up
+Vlan414              10.63.209.240   protocol-up/link-up/admin-up
+Vlan416              10.63.208.112   protocol-up/link-up/admin-up
+Vlan417              10.63.208.235   protocol-up/link-up/admin-up
+Vlan450              10.63.76.164    protocol-up/link-up/admin-up
+Vlan452              10.63.85.157    protocol-up/link-up/admin-up
+Vlan453              10.63.207.208   protocol-up/link-up/admin-up
+Vlan817              10.63.81.66     protocol-up/link-up/admin-up
+Eth1/1               172.16.1.2      protocol-up/link-up/admin-up
+
+
+  ip address 10.63.77.19/27
+  ip address 10.63.77.50/27
+  ip address 10.63.77.117/27
+  ip address 10.63.78.80/25
+  ip address 10.63.78.243/25
+  ip address 10.63.79.39/26
+  ip address 10.63.79.108/28
+  ip address 10.63.79.68/29
+  ip address 10.63.209.149/27
+  ip address 10.63.209.177/27
+  ip address 10.63.209.240/27
+  ip address 10.63.208.112/25
+  ip address 10.63.208.235/25
+  ip address 10.63.76.164/25
+  ip address 10.63.85.157/29
+  ip address 10.63.207.208/25
+  ip address 10.63.81.66/26
+  ip address 172.16.1.2/30
+
+
+10.63.76.128/25, ubest/mbest: 1/0, attached
+    *via 10.63.76.164, Vlan450, [0/0], 29w4d, direct
+10.63.77.0/27, ubest/mbest: 1/0, attached
+    *via 10.63.77.19, Vlan212, [0/0], 29w3d, direct
+10.63.77.32/27, ubest/mbest: 1/0, attached
+    *via 10.63.77.50, Vlan213, [0/0], 29w3d, direct
+10.63.77.96/27, ubest/mbest: 1/0, attached
+    *via 10.63.77.117, Vlan214, [0/0], 29w3d, direct
+10.63.78.0/25, ubest/mbest: 1/0, attached
+    *via 10.63.78.80, Vlan216, [0/0], 29w3d, direct
+10.63.78.128/25, ubest/mbest: 1/0, attached
+    *via 10.63.78.243, Vlan217, [0/0], 29w3d, direct
+10.63.79.0/26, ubest/mbest: 1/0, attached
+    *via 10.63.79.39, Vlan219, [0/0], 29w4d, direct
+10.63.79.64/29, ubest/mbest: 1/0, attached
+    *via 10.63.79.68, Vlan224, [0/0], 29w3d, direct
+10.63.79.96/28, ubest/mbest: 1/0, attached
+    *via 10.63.79.108, Vlan222, [0/0], 29w3d, direct
+10.63.81.64/26, ubest/mbest: 1/0, attached
+    *via 10.63.81.66, Vlan817, [0/0], 25w0d, direct
+10.63.85.152/29, ubest/mbest: 1/0, attached
+    *via 10.63.85.157, Vlan452, [0/0], 29w3d, direct
+10.63.207.128/25, ubest/mbest: 1/0, attached
+    *via 10.63.207.208, Vlan453, [0/0], 29w3d, direct
+10.63.208.0/25, ubest/mbest: 1/0, attached
+    *via 10.63.208.112, Vlan416, [0/0], 29w4d, direct
+10.63.208.128/25, ubest/mbest: 1/0, attached
+    *via 10.63.208.235, Vlan417, [0/0], 29w3d, direct
+10.63.209.128/27, ubest/mbest: 1/0, attached
+    *via 10.63.209.149, Vlan412, [0/0], 29w3d, direct
+10.63.209.160/27, ubest/mbest: 1/0, attached
+    *via 10.63.209.177, Vlan413, [0/0], 29w3d, direct
+10.63.209.224/27, ubest/mbest: 1/0, attached
+    *via 10.63.209.240, Vlan414, [0/0], 29w3d, direct
+172.16.1.0/30, ubest/mbest: 1/0, attached
+    *via 172.16.1.2, Eth1/1, [0/0], 29w3d, direct
