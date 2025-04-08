@@ -33,13 +33,21 @@ router bgp 64523
  neighbor 169.254.1.10 log-neighbor-changes
  neighbor 169.254.1.10 update-source Vlan103
  neighbor 169.254.1.10 fall-over bfd
- !
+ neighbor 169.254.255.1 remote-as 64521
+ neighbor 169.254.255.1 update-source Loopback0
+ neighbor 169.254.255.1 fall-over bfd
+ neighbor 169.254.255.2 remote-as 64522
+ neighbor 169.254.255.2 update-source Loopback0
+ neighbor 169.254.255.2 fall-over bfd
+ neighbor 169.254.255.4 remote-as 64524
+ neighbor 169.254.255.4 update-source Loopback0
+ neighbor 169.254.255.4 fall-over bfd
+
  address-family ipv4
   neighbor 169.254.1.10 activate
   neighbor 169.254.1.10 send-community both
   neighbor 169.254.1.10 maximum-prefix 100 80
   maximum-paths 4
-
 
 router ospf 1
  router-id 169.254.255.3
