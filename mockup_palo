@@ -1,0 +1,58 @@
+ethernet0/0.210          266   1    VM-MGT           vr:vr1                   210    10.63.76.1 255.255.255.128
+ethernet0/0.215          267   1    Witness          vr:vr1                   215    10.63.77.65 255.255.255.224
+ethernet0/0.219          268   1    Device-MGT       vr:vr1                   219    10.63.79.1 255.255.255.192
+ethernet0/0.220          269   1    Front-End_LB-TIP vr:vr1                   220    192.168.55.1 255.255.255.128
+ethernet0/0.221          270   1    vROPS            vr:vr1                   221    10.63.79.81 255.255.255.240
+ethernet0/0.410          271   1    SYM-VM-MGT       vr:vr1                   410    10.63.209.1 255.255.255.128
+ethernet0/0.415          272   1    SYM-WITNESS      vr:vr1                   415    10.63.209.193 255.255.255.224
+ethernet0/0.416          275   1    SYM-PUBLIC       vr:vr1                   416    10.63.208.2 255.255.255.128
+ethernet0/0.420          273   1    SYM-OUTSIDE      vr:vr1                   420    10.63.207.1 255.255.255.128
+ethernet0/0.450          274   1    UNTRUST          vr:vr1                   450    10.63.76.254 255.255.255.128
+ethernet0/0.810          256   1    VM-MGT           vr:vr1                   810    10.63.81.1 255.255.255.192
+
+
+
+interface ethernet0/0.210
+ no shut
+ encapsulation dot1Q 210
+ ip address 10.63.76.1 255.255.255.128
+interface ethernet0/0.215
+    no shut
+    encapsulation dot1Q 215
+    ip address 10.63.77.65 255.255.255.224
+interface ethernet0/0.219
+    no shut
+    encapsulation dot1Q 219
+    ip address 10.63.79.1 255.255.255.192
+interface ethernet0/0.220
+    no shut
+    encapsulation dot1Q 220
+    ip address 192.168.55.1 255.255.255.128
+interface ethernet0/0.221
+    no shut
+    encapsulation dot1Q 221
+    ip address 10.63.79.81 255.255.255.240
+interface ethernet0/0.410
+    no shut
+    encapsulation dot1Q 410
+    ip address 10.63.209.1 255.255.255.128
+interface ethernet0/0.415
+    no shut
+    encapsulation dot1Q 415
+    ip address 10.63.209.193 255.255.255.224
+interface ethernet0/0.416
+    no shut
+    encapsulation dot1Q 416
+    ip address 10.63.208.2 255.255.255.128
+interface ethernet0/0.420
+    no shut
+    encapsulation dot1Q 420
+    ip address 10.63.207.1 255.255.255.128
+interface ethernet0/0.450
+    no shut
+    encapsulation dot1Q 450
+    ip address 10.63.76.254 255.255.255.128
+interface ethernet0/0.810
+    no shut
+    encapsulation dot1Q 810
+    ip address 10.63.81.1 255.255.255.192

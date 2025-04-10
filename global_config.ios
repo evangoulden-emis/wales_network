@@ -16,3 +16,33 @@ router bgp <your-asn>
   neighbor 169.254.4.2
     address-family ipv4 unicast
       route-map AWS-OUT out
+
+ip prefix-list AWS_ROUTES seq 10 permit 172.19.0.0/16
+ip prefix-list AWS_ROUTES seq 20 permit 172.20.0.0/16
+
+ip prefix-list WALES_NDC seq 5 permit 10.63.0.0/16 le 32
+!
+route-map LOCAL-PREPEND permit 10
+ match ip address prefix-list WALES_NDC
+ set as-path prepend 64521 64521
+!
+route-map LOCAL-PREPEND permit 20
+!
+route-map AWS_INBOUND permit 10
+ match ip address AWS_INBOUND
+ set local-preference 100
+
+ip prefix-list AWS_ROUTES seq 10 permit 172.19.0.0/16
+ip prefix-list AWS_ROUTES seq 20 permit 172.20.0.0/16
+
+ ip prefix-list WALES_NDC seq 5 permit 10.63.0.0/16 le 32
+!
+route-map LOCAL-PREPEND permit 10
+ match ip address prefix-list WALES_NDC
+ set as-path prepend 64521 64521 64521
+!
+route-map LOCAL-PREPEND permit 20
+!
+route-map AWS_INBOUND permit 10
+ match ip address AWS_INBOUND
+ set local-preference 200

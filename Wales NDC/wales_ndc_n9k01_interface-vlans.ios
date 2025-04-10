@@ -1,0 +1,185 @@
+interface Vlan119
+  no ip redirects
+  no ipv6 redirects
+  hsrp 119
+    priority 110
+
+interface Vlan212
+  no shutdown
+  no ip redirects
+  ip address 10.63.77.19 255.255.255.224
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 212
+    preempt
+    priority 110
+    standby standby ip 10.63.77.1
+
+interface Vlan213
+  no shutdown
+  no ip redirects
+  ip address 10.63.77.50 255.255.255.224
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 213
+    preempt
+    standby ip 10.63.77.33
+
+interface Vlan214
+  no shutdown
+  no ip redirects
+  ip address 10.63.77.117 255.255.255.224
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 214
+    preempt
+    priority 110
+    standby ip 10.63.77.97
+
+interface Vlan216
+  no shutdown
+  no ip redirects
+  ip address 10.63.78.80 255.255.255.128
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 216
+    preempt
+    priority 110
+    standby ip 10.63.78.1
+
+interface Vlan217
+  no shutdown
+  no ip redirects
+  ip address 10.63.78.243 255.255.255.128
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 217
+    preempt
+    standby ip 10.63.78.129
+
+interface Vlan219
+  no shutdown
+  no ip redirects
+  ip address 10.63.79.39 255.255.255.192
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 219
+    preempt
+    standby ip 10.63.79.2
+
+interface Vlan222
+  no shutdown
+  no ip redirects
+  ip address 10.63.79.108 255.255.255.240
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 222
+    preempt
+    priority 110
+    standby ip 10.63.79.97
+
+interface Vlan224
+  no shutdown
+  no ip redirects
+  ip address 10.63.79.68 255.255.255.248
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 224
+    preempt
+    priority 110
+    standby ip 10.63.79.65
+
+interface Vlan412
+  no shutdown
+  no ip redirects
+  ip address 10.63.209.149 255.255.255.224
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 412
+    preempt
+    priority 110
+    standby ip 10.63.209.129
+
+interface Vlan413
+  no shutdown
+  no ip redirects
+  ip address 10.63.209.177 255.255.255.224
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 413
+    preempt
+    standby ip 10.63.209.161
+
+interface Vlan414
+  no shutdown
+  no ip redirects
+  ip address 10.63.209.240 255.255.255.224
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 414
+    preempt
+    priority 110
+    standby ip 10.63.209.225
+
+interface Vlan416
+  no shutdown
+  no ip redirects
+  ip address 10.63.208.112 255.255.255.128
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 416
+    preempt
+    priority 110
+    standby ip 10.63.208.1
+
+interface Vlan417
+  no shutdown
+  no ip redirects
+  ip address 10.63.208.235 255.255.255.128
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 417
+    preempt
+    standby ip 10.63.208.129
+
+interface Vlan450
+  no shutdown
+  no ip redirects
+  ip address 10.63.76.164 255.255.255.128
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 450
+    preempt
+    priority 110
+    standby ip 10.63.76.250
+
+interface Vlan452
+  no shutdown
+  no ip redirects
+  ip address 10.63.85.157 255.255.255.248
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 452
+    preempt
+    priority 110
+    standby ip 10.63.85.154
+
+interface Vlan453
+  no shutdown
+  no ip redirects
+  ip address 10.63.207.208 255.255.255.128
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 453
+    preempt
+    standby ip 10.63.207.135
+
+interface Vlan817
+  no shutdown
+  no ip redirects
+  ip address 10.63.81.66 255.255.255.192
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 817
+    preempt
+    standby ip 10.63.81.65
