@@ -8,17 +8,17 @@ interface loopback100
   ip ospf network point-to-point
 
 interface Ethernet0/1
-  description "DX-Connection-2-DC1" ! # Add DXCON ID
+  description "DX-Connection-2-NDC" ! # Add DXCON ID
   switchport mode trunk
   switchport trunk allowed vlan 102
   bfd interval 50 min_rx 50 multiplier 5
   no shutdown
 
 vlan 102
-  name DX-VIF-2-DC1
+  name DX-VIF-2-NDC
 
 interface vlan 102
-  description "DX-VIF-2-DC1"
+  description "DX-VIF-2-NDC"
   ip address 169.254.1.5 255.255.255.252
   no shutdown
 
@@ -28,7 +28,7 @@ router bgp 64522
  bgp graceful-restart
  timers bgp 10 30
  neighbor 169.254.1.6 remote-as 64532
- neighbor 169.254.1.6 description AWS-DX-2-DC1
+ neighbor 169.254.1.6 description AWS-DX-2-NDC
  neighbor 169.254.1.6 log-neighbor-changes
  neighbor 169.254.1.6 update-source Vlan102
  neighbor 169.254.1.6 fall-over bfd

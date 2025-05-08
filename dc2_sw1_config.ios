@@ -9,17 +9,17 @@ interface loopback100
 
 
 interface Ethernet0/1
-  description "DX-Connection-1-DC2" ! # Add DXCON ID
+  description "DX-Connection-1-CDC" ! # Add DXCON ID
   switchport mode trunk
   switchport trunk allowed vlan 103
   bfd interval 50 min_rx 50 multiplier 5
   no shutdown
 
 vlan 103
-  name DX-VIF-1-DC2
+  name DX-VIF-1-CDC
 
 interface vlan 103
-  description "DX-VIF-1-DC2"
+  description "DX-VIF-1-CDC"
   ip address 169.254.1.9 255.255.255.252
   no shutdown
 
@@ -29,7 +29,7 @@ router bgp 64523
  bgp graceful-restart
  timers bgp 10 30
  neighbor 169.254.1.10 remote-as 64533
- neighbor 169.254.1.10 description AWS-DX-1-DC2
+ neighbor 169.254.1.10 description AWS-DX-1-CDC
  neighbor 169.254.1.10 log-neighbor-changes
  neighbor 169.254.1.10 update-source Vlan103
  neighbor 169.254.1.10 fall-over bfd
