@@ -1,8 +1,6 @@
-from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
-import os
+from jinja2 import Environment, select_autoescape, FileSystemLoader
 import argparse
 import yaml
-
 
 
 def main():
@@ -31,7 +29,6 @@ def main():
         trim_blocks=True,
         lstrip_blocks=True
     )
-
 
     device_list = []
     template = env.get_template(args.template)
