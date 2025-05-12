@@ -10,7 +10,7 @@ interface {{ loopback }}
 interface Ethernet0/1
   description "{{ dxcon_description }}" ! # Add DXCON ID
   switchport mode trunk
-  switchport trunk allowed vlan {{ vlan }}
+  switchport trunk allowed vlan {{ vlans }}
   bfd interval 50 min_rx 50 multiplier 5
   no shutdown
 
@@ -28,7 +28,7 @@ router bgp {{ local_bgp_asn }}
  bgp graceful-restart
  timers bgp 10 30
  
- {% for neighbor in  % }
+
 
  address-family ipv4
   neighbor 169.254.1.2 activate
