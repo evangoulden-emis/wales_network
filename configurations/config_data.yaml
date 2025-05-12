@@ -1,14 +1,15 @@
 devices: 
   - NDC-N9K01:
-    dc_location: ndc
-    loopback: loopback100
-    loopback_ip: 169.254.255.1
-    loopback_netmask: 255.255.255.255
-    dxcon:
-      description: dhcw-ndc-dxcon-01
-      name: dhcw-ndc-dxcon-01
-    local_bgp_asn: 64521
-    router_id: 169.254.255.1
+    general:
+      dc_location: ndc
+      loopback: loopback100
+      loopback_ip: 169.254.255.1
+      loopback_netmask: 255.255.255.255
+      dxcon:
+        description: dhcw-ndc-dxcon-01
+        name: dhcw-ndc-dxcon-01
+      local_bgp_asn: 64521
+      router_id: 169.254.255.1
     vrf:
       - FE:
         name: FE
@@ -17,14 +18,14 @@ devices:
         - neighbor: 169.254.255.2
           neighbor_ip: 169.254.255.2
           vrf: FE
-          details: iBGP NDC N9K01 <--> N9K02
-          remote_asn: 64521
+          description: iBGP NDC N9K01 <--> N9K02
+          remote_as: 64521
           update_source: loopback100
         - neighbor: 169.254.1.2
           neighbor_ip: 169.254.1.2
           vrf: FE
-          details: eBGP DXCON NDC FrontEnd
-          remote_asn: 64530
+          description: eBGP DXCON NDC FrontEnd
+          remote_as: 64530
           update_source: Vlan101
       - BE:
         name: BE
@@ -33,8 +34,8 @@ devices:
         - neighbor: 169.254.11.2
           neighbor_ip: 169.254.11.2
           vrf: BE
-          details: eBGP DXCON NDC BackEnd
-          remote_asn: 64540
+          description: eBGP DXCON NDC BackEnd
+          remote_as: 64540
           update_source: Vlan201
     vlans:
       - vlan_id: 101

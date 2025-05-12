@@ -1,4 +1,4 @@
-from jinja2 import Environment, PackageLoader, select_autoescape
+from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 import os
 import argparse
 import yaml
@@ -26,50 +26,32 @@ def main():
         print(f"Failed to parse YAML document due to {e}")
 
     env = Environment(
-        loader=PackageLoader("config_generator"),
-        autoescape=select_autoescape()
+        loader=FileSystemLoader("."),
+        autoescape=select_autoescape(),
+        trim_blocks=True,
+        lstrip_blocks=True
     )
 
 
     device_list = []
-    
+    template = env.get_template(args.template)
+
     for device in data['devices']:
-        '''General Device Information'''
-        loopback = device['loopback']
-        loopback_ip = device['loopback_ip']
-        loopback_netmask = device['loopback_netmask']
-        dxcon_description = device.get('dxcon').get('description')
-
-        '''VLAN Information'''
-        vlans = [vlan.get('vlan_id') for vlan in device['vlans']]
-        vlan_names = [vlan.get('vlan_name') for vlan in device['vlans']]
-        vlan_interface_ip = [vlan.get('vlan_interface_ip') for vlan in device['vlans']]
-        vlan_interface_netmask = [vlan.get('vlan_interface_netmask') for vlan in device['vlans']]
-        vlan_description = [vlan.get('vlan_description') for vlan in device['vlans']]
-
-
-        '''VRF Information'''
-        vrf_name = [vrf.get('name') for vrf in device['vrf']]
-        vrf_description = [vrf.get('description') for vrf in device['vrf']]
-        for vrf in device['vrf']:
-            if 'bgp' in vrf.keys():
-                for bgp in vrf['bgp']:
-                    print(f"{bgp}")
-
-
-
-
-
-        '''BGP Information'''
-
-
-
+        general = device['general']
+        vlans = device['vlans']
+        vrf = device['vrf']
+   
         device_list.append(template.render(
-            
-
+            general=general,
+            vlans=vlans,
+            vrf=vrf,
         )
     )
-    template = env.get_template(args.template)
+    with open(file=args.dest, mode='w') as f:
+        for device in device_list:
+            f.write(device)
+            f.write("\n")
+        print(f"Configuration generated and written to {args.dest}")
 
 
 if __name__ == "__main__":

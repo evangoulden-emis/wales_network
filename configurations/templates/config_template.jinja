@@ -1,42 +1,53 @@
 feature bgp
 feature interface-vlan
 
-interface {{ loopback }}
-  ip address {{ loopback_ip }} {{ loopback_netmask }}
+interface {{ general.loopback }}
+  ip address {{ general.loopback_ip }} {{ general.loopback_netmask }}
   ip ospf 1 area 0
   ip ospf network point-to-point
 
 
 interface Ethernet0/1
-  description "{{ dxcon_description }}" ! # Add DXCON ID
+  description "{{ general.dxcon.description }}" ! # Add DXCON ID
   switchport mode trunk
-  switchport trunk allowed vlan {{ vlans }}
+  {% for vlan in vlans %}
+  switchport trunk allowed vlan {{ vlan.vlan_id }}
+  {% endfor %}
   bfd interval 50 min_rx 50 multiplier 5
   no shutdown
 
-vlan {{ vlan }}
-  name {{ vlan_name}}
+vrf definition {{ general.vrf_name }}
+  description "{{ general.vrf_description }}"
 
-interface vlan {{ vlan}}
-  description "{{ vlan_description }}"
-  ip address {{ vlan_interface_ip }} {{ vlan_interface_netmask }}
+
+{% for vlan in vlans %}
+vlan {{ vlan.vlan_id }}
+  name {{ vlan.vlan_name }}
+{% endfor %}
+
+{% for vlan in vlans %}
+interface vlan {{ vlan.vlan_id }}
+  description "{{ vlan.vlan_description }}"
+  ip address {{ vlan.vlan_interface_ip }} {{ vlan.vlan_interface_netmask }}
   no shutdown
+{% endfor %}
 
-router bgp {{ local_bgp_asn }}
- bgp router-id {{ router_id }}
+
+router bgp {{ general.local_bgp_asn }}
+ bgp router-id {{ general.router_id }}
  bgp log-neighbor-changes
  bgp graceful-restart
  timers bgp 10 30
+ maximum-paths 4
  
-
-
+{% for v in vrf %}
  address-family ipv4
-  neighbor 169.254.1.2 activate
-  neighbor 169.254.1.2 send-community both
-  neighbor 169.254.1.2 maximum-prefix 100 80
-  maximum-paths 4
-
-router ospf 1
- router-id 169.254.255.1
- passive-interface default
- no passive-interface Loopback100
+  vrf {{ v.vrf_name }}
+  {% for bgp in v.bgp %}
+  neighbor {{ bgp.neighbor }} remote-as {{ bgp.remote_as }}
+  neighbor {{ bgp.neighbor }} description "{{ bgp.description }}"
+  neighbor {{ bgp.neighbor }} update-source {{ bgp.update_source }}
+  address-family ipv4
+    neighbor {{ bgp.neighbor }} activate  
+  {% endfor %}
+{% endfor %}
