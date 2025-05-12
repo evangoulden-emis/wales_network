@@ -1,0 +1,49 @@
+devices: 
+  - NDC-N9K01:
+    dc_location: ndc
+    loopback: loopback100
+    loopback_ip: 169.254.255.1
+    loopback_netmask: 255.255.255.255
+    dxcon:
+      description: dhcw-ndc-dxcon-01
+      name: dhcw-ndc-dxcon-01
+    local_bgp_asn: 64521
+    router_id: 169.254.255.1
+    vrf:
+      - FE:
+        name: FE
+        description: FrontEnd VRF
+      - BE:
+        name: BE
+        description: BackEnd VRF
+    vlans:
+      - vlan_id: 101
+        vlan_name: FrontEnd-VLAN-101
+        vlan_description: Primary frontend VLAN for AWS Connectivity
+        vlan_interface_ip: 169.254.1.1
+        vlan_interface_netmask: 255.255.255.252
+      - vlan_id: 201
+        vlan_name: BackEnd-VLAN-201
+        vlan_description: Primary frontend VLAN for AWS Connectivity
+        vlan_interface_ip: 169.254.11.1
+        vlan_interface_netmask: 255.255.255.252
+    bgp_neighbors:
+      - VRF:
+        - FE:
+          - neighbor_ip: 169.254.255.2
+            vrf: FE
+            details: iBGP NDC N9K01 <--> N9K02
+            remote_asn: 64521
+            update_source: loopback100
+          - neighbor_ip: 169.254.1.2
+            vrf: FE
+            details: eBGP DXCON NDC FrontEnd
+            remote_asn: 64530
+            update_source: Vlan101
+        - BE:
+          - neighbor_ip: 169.254.11.2
+            vrf: BE
+            details: eBGP DXCON NDC BackEnd
+            remote_asn: 64540
+            update_source: Vlan201
+
