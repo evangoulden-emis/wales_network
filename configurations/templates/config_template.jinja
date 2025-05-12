@@ -15,7 +15,7 @@ interface Ethernet0/1
   no shutdown
 
 vlan {{ vlan }}
-  name {{ dxcon_name }}
+  name {{ vlan_name}}
 
 interface vlan {{ vlan}}
   description "{{ vlan_description }}"

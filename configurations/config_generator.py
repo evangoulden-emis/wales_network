@@ -21,7 +21,7 @@ def main():
     
     try:
         with open(file=args.data_file, mode='r') as f: 
-            data = yaml.load(f, Loader=yaml.FullLoader)
+            data = yaml.safe_load(f)
     except Exception as e:
         print(f"Failed to parse YAML document due to {e}")
 
@@ -30,21 +30,46 @@ def main():
         autoescape=select_autoescape()
     )
 
-    template = env.get_template(args.template)
+
     device_list = []
-    for device in data['device']:
-        loopback = device['loopback'],
-        loopback_ip = device['loopback_ip'],
-        loopback_netmask = device['loopback_netmask'],
-        dxcon_description = device.get('dxcon').get('description'),
-        vlans.append(f)
+    
+    for device in data['devices']:
+        '''General Device Information'''
+        loopback = device['loopback']
+        loopback_ip = device['loopback_ip']
+        loopback_netmask = device['loopback_netmask']
+        dxcon_description = device.get('dxcon').get('description')
+
+        '''VLAN Information'''
+        vlans = [vlan.get('vlan_id') for vlan in device['vlans']]
+        vlan_names = [vlan.get('vlan_name') for vlan in device['vlans']]
+        vlan_interface_ip = [vlan.get('vlan_interface_ip') for vlan in device['vlans']]
+        vlan_interface_netmask = [vlan.get('vlan_interface_netmask') for vlan in device['vlans']]
+        vlan_description = [vlan.get('vlan_description') for vlan in device['vlans']]
+
+
+        '''VRF Information'''
+        vrf_name = [vrf.get('name') for vrf in device['vrf']]
+        vrf_description = [vrf.get('description') for vrf in device['vrf']]
+        for vrf in device['vrf']:
+            if 'bgp' in vrf.keys():
+                for bgp in vrf['bgp']:
+                    print(f"{bgp}")
+
+
+
+
+
+        '''BGP Information'''
+
+
+
         device_list.append(template.render(
             
-            
-
 
         )
     )
+    template = env.get_template(args.template)
 
 
 if __name__ == "__main__":
