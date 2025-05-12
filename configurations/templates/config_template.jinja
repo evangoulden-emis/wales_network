@@ -10,9 +10,7 @@ interface {{ general.loopback }}
 interface Ethernet0/1
   description "{{ general.dxcon.description }}" ! # Add DXCON ID
   switchport mode trunk
-  {% for vlan in vlans %}
-  switchport trunk allowed vlan {{ vlan.vlan_id }}
-  {% endfor %}
+  switchport trunk allowed vlan {% for vlan in vlans %}{{ vlan.vlan_id }}{% if not loop.last %},{% endif %}{% endfor %}{{'\n'}}
   bfd interval 50 min_rx 50 multiplier 5
   no shutdown
 
