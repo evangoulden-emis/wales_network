@@ -34,6 +34,7 @@ def main():
     template = env.get_template(args.template)
 
     for device in data['devices']:
+        device_name = device.get('general').get('device_name')
         general = device['general']
         vlans = device['vlans']
         vrf = device['vrf']
@@ -44,11 +45,12 @@ def main():
             vrf=vrf,
         )
     )
-    with open(file=args.dest, mode='w') as f:
-        for device in device_list:
-            f.write(device)
-            f.write("\n")
-        print(f"Configuration generated and written to {args.dest}")
+        dest_file = args.dest + device_name + ".txt"
+        with open(file=dest_file, mode='w') as f:
+            for device in device_list:
+                f.write(device)
+                f.write("\n")
+            print(f"Configuration generated and written to {args.dest}")
 
 
 if __name__ == "__main__":

@@ -14,6 +14,11 @@ interface Ethernet0/1
   bfd interval 50 min_rx 50 multiplier 5
   no shutdown
 
+{% for v in vrf %}
+vrf context {{ v.name }}
+{% endfor %}
+
+
 vrf definition {{ general.vrf_name }}
   description "{{ general.vrf_description }}"
 
@@ -31,21 +36,22 @@ interface vlan {{ vlan.vlan_id }}
 {% endfor %}
 
 
+
 router bgp {{ general.local_bgp_asn }}
- bgp router-id {{ general.router_id }}
- bgp log-neighbor-changes
- bgp graceful-restart
- timers bgp 10 30
- maximum-paths 4
- 
-{% for v in vrf %}
- address-family ipv4
-  vrf {{ v.vrf_name }}
-  {% for bgp in v.bgp %}
-  neighbor {{ bgp.neighbor }} remote-as {{ bgp.remote_as }}
-  neighbor {{ bgp.neighbor }} description "{{ bgp.description }}"
-  neighbor {{ bgp.neighbor }} update-source {{ bgp.update_source }}
-  address-family ipv4
-    neighbor {{ bgp.neighbor }} activate  
-  {% endfor %}
+  bgp router-id {{ general.router_id }}
+  bgp log-neighbor-changes
+  bgp graceful-restart
+  timers bgp 10 30
+  maximum-paths 4
+  {% for v in vrf %}
+  vrf {{ v.name }}
+    {% for bgp in v.bgp %}
+    neighbor {{ bgp.neighbor }}
+      bfd
+      remote-as {{ bgp.remote_as }}
+      update-source {{ bgp.update_source}}
+      address-family ipv4 unicast
 {% endfor %}
+{% endfor %}
+
+

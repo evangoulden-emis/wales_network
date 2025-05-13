@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["--template", "configurations/templates/config_template.jinja", "--data_file", "configurations/config_data.yaml", "--dest", "configurations/dest.txt"],
+            "args": ["--template", "configurations/templates/config_template.jinja", "--data_file", "configurations/config_data.yaml", "--dest", "configurations/"],
         }
     ]
 }

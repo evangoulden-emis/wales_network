@@ -1,6 +1,7 @@
 devices: 
   - NDC-N9K01:
     general:
+      device_name: NDC-N9K01
       dc_location: ndc
       loopback: loopback100
       loopback_ip: 169.254.255.1
