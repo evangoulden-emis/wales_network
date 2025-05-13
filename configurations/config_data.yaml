@@ -41,11 +41,13 @@ devices:
   vlans:
   - vlan_id: 101
     vlan_name: FrontEnd-VLAN-101
+    vrf: FE
     vlan_description: Primary frontend VLAN for AWS Connectivity
     vlan_interface_ip: 169.254.1.1
     vlan_interface_netmask: 255.255.255.252
   - vlan_id: 201
     vlan_name: BackEnd-VLAN-201
+    vrf: BE
     vlan_description: Primary backend VLAN for AWS Connectivity
     vlan_interface_ip: 169.254.11.1
     vlan_interface_netmask: 255.255.255.252
@@ -91,11 +93,13 @@ devices:
   vlans:
   - vlan_id: 102
     vlan_name: FrontEnd-VLAN-102
+    vrf: FE
     vlan_description: Primary frontend VLAN for AWS Connectivity
     vlan_interface_ip: 169.254.2.1
     vlan_interface_netmask: 255.255.255.252
   - vlan_id: 202
     vlan_name: BackEnd-VLAN-202
+    vrf: BE
     vlan_description: Primary backend VLAN for AWS Connectivity
     vlan_interface_ip: 169.254.12.2
     vlan_interface_netmask: 255.255.255.252
@@ -141,11 +145,13 @@ devices:
   vlans:
   - vlan_id: 103
     vlan_name: FrontEnd-VLAN-103
+    vrf: FE
     vlan_description: Primary frontend VLAN for AWS Connectivity
     vlan_interface_ip: 169.254.3.1
     vlan_interface_netmask: 255.255.255.252
   - vlan_id: 203
     vlan_name: BackEnd-VLAN-203
+    vrf: BE
     vlan_description: Primary backend VLAN for AWS Connectivity
     vlan_interface_ip: 169.254.13.1
     vlan_interface_netmask: 255.255.255.252
@@ -191,11 +197,13 @@ devices:
   vlans:
   - vlan_id: 104
     vlan_name: FrontEnd-VLAN-104
+    vrf: FE
     vlan_description: Primary frontend VLAN for AWS Connectivity
     vlan_interface_ip: 169.254.4.1
     vlan_interface_netmask: 255.255.255.252
   - vlan_id: 204
     vlan_name: BackEnd-VLAN-204
+    vrf: BE
     vlan_description: Primary backend VLAN for AWS Connectivity
     vlan_interface_ip: 169.254.14.1
     vlan_interface_netmask: 255.255.255.252

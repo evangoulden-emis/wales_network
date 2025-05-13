@@ -26,6 +26,7 @@ vlan {{ vlan.vlan_id }}
 
 {% for vlan in vlans %}
 interface vlan {{ vlan.vlan_id }}
+  ip vrf {{ vlan.vrf_name }}
   description "{{ vlan.vlan_description }}"
   ip address {{ vlan.vlan_interface_ip }} {{ vlan.vlan_interface_netmask }}
   no shutdown
