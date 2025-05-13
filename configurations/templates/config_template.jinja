@@ -19,10 +19,6 @@ vrf context {{ v.name }}
 {% endfor %}
 
 
-vrf definition {{ general.vrf_name }}
-  description "{{ general.vrf_description }}"
-
-
 {% for vlan in vlans %}
 vlan {{ vlan.vlan_id }}
   name {{ vlan.vlan_name }}
@@ -34,7 +30,6 @@ interface vlan {{ vlan.vlan_id }}
   ip address {{ vlan.vlan_interface_ip }} {{ vlan.vlan_interface_netmask }}
   no shutdown
 {% endfor %}
-
 
 
 router bgp {{ general.local_bgp_asn }}
