@@ -49,3 +49,153 @@ devices:
     vlan_description: Primary backend VLAN for AWS Connectivity
     vlan_interface_ip: 169.254.11.1
     vlan_interface_netmask: 255.255.255.252
+- NDC-N9K02:
+  general:
+    device_name: NDC-N9K02
+    dc_location: ndc
+    loopback: loopback100
+    loopback_ip: 169.254.255.2
+    loopback_netmask: 255.255.255.255
+    dxcon:
+      description: dhcw-ndc-dxcon-02
+      name: dhcw-ndc-dxcon-02
+    local_bgp_asn: 64521
+    router_id: 169.254.255.2
+  vrf:
+  - FE:
+    name: FE
+    description: FrontEnd VRF
+    bgp:
+    - neighbor: 169.254.255.1
+      neighbor_ip: 169.254.255.1
+      vrf: FE
+      description: iBGP NDC N9K02 <--> N9K01
+      remote_as: 64521
+      update_source: loopback100
+    - neighbor: 169.254.2.2
+      neighbor_ip: 169.254.2.2
+      vrf: FE
+      description: eBGP DXCON NDC FrontEnd
+      remote_as: 64530
+      update_source: Vlan102
+  - BE:
+    name: BE
+    description: BackEnd VRF
+    bgp:
+    - neighbor: 169.254.12.2
+      neighbor_ip: 169.254.12.2
+      vrf: BE
+      description: eBGP DXCON NDC BackEnd
+      remote_as: 64540
+      update_source: Vlan202
+  vlans:
+  - vlan_id: 102
+    vlan_name: FrontEnd-VLAN-102
+    vlan_description: Primary frontend VLAN for AWS Connectivity
+    vlan_interface_ip: 169.254.2.1
+    vlan_interface_netmask: 255.255.255.252
+  - vlan_id: 202
+    vlan_name: BackEnd-VLAN-202
+    vlan_description: Primary backend VLAN for AWS Connectivity
+    vlan_interface_ip: 169.254.12.2
+    vlan_interface_netmask: 255.255.255.252
+- CDC-N9K01:
+  general:
+    device_name: CDC-N9K01
+    dc_location: cdc
+    loopback: loopback100
+    loopback_ip: 169.254.255.3
+    loopback_netmask: 255.255.255.255
+    dxcon:
+      description: dhcw-cdc-dxcon-01
+      name: dhcw-cdc-dxcon-01
+    local_bgp_asn: 64522
+    router_id: 169.254.255.3
+  vrf:
+  - FE:
+    name: FE
+    description: FrontEnd VRF
+    bgp:
+    - neighbor: 169.254.255.4
+      neighbor_ip: 169.254.255.4
+      vrf: FE
+      description: iBGP CDC N9K01 <--> N9K02
+      remote_as: 64522
+      update_source: loopback100
+    - neighbor: 169.254.3.2
+      neighbor_ip: 168.254.3.2
+      vrf: FE
+      description: eBGP DXCON CDC FrontEnd
+      remote_as: 64530
+      update_source: Vlan103
+  - BE:
+    name: BE
+    description: BackEnd VRF
+    bgp:
+    - neighbor: 169.254.13.2
+      neighbor_ip: 169.254.13.2
+      vrf: BE
+      description: eBGP DXCON CDC BackEnd
+      remote_as: 64540
+      update_source: Vlan203
+  vlans:
+  - vlan_id: 103
+    vlan_name: FrontEnd-VLAN-103
+    vlan_description: Primary frontend VLAN for AWS Connectivity
+    vlan_interface_ip: 169.254.3.1
+    vlan_interface_netmask: 255.255.255.252
+  - vlan_id: 203
+    vlan_name: BackEnd-VLAN-203
+    vlan_description: Primary backend VLAN for AWS Connectivity
+    vlan_interface_ip: 169.254.13.1
+    vlan_interface_netmask: 255.255.255.252
+- CDC-N9K02:
+  general:
+    device_name: CDC-N9K02
+    dc_location: cdc
+    loopback: loopback100
+    loopback_ip: 169.254.255.4
+    loopback_netmask: 255.255.255.255
+    dxcon:
+      description: dhcw-cdc-dxcon-02
+      name: dhcw-cdc-dxcon-02
+    local_bgp_asn: 64522
+    router_id: 169.254.255.4
+  vrf:
+  - FE:
+    name: FE
+    description: FrontEnd VRF
+    bgp:
+    - neighbor: 169.254.255.3
+      neighbor_ip: 169.254.255.3
+      vrf: FE
+      description: iBGP CDC N9K02 <--> N9K01
+      remote_as: 64522
+      update_source: loopback100
+    - neighbor: 169.254.4.2
+      neighbor_ip: 169.254.4.2
+      vrf: FE
+      description: eBGP DXCON CDC FrontEnd
+      remote_as: 64530
+      update_source: Vlan104
+  - BE:
+    name: BE
+    description: BackEnd VRF
+    bgp:
+    - neighbor: 169.254.14.2
+      neighbor_ip: 169.254.14.2
+      vrf: BE
+      description: eBGP DXCON CDC BackEnd
+      remote_as: 64540
+      update_source: Vlan204
+  vlans:
+  - vlan_id: 104
+    vlan_name: FrontEnd-VLAN-104
+    vlan_description: Primary frontend VLAN for AWS Connectivity
+    vlan_interface_ip: 169.254.4.1
+    vlan_interface_netmask: 255.255.255.252
+  - vlan_id: 204
+    vlan_name: BackEnd-VLAN-204
+    vlan_description: Primary backend VLAN for AWS Connectivity
+    vlan_interface_ip: 169.254.14.1
+    vlan_interface_netmask: 255.255.255.252

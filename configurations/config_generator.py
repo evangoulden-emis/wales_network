@@ -39,18 +39,16 @@ def main():
         vlans = device['vlans']
         vrf = device['vrf']
    
-        device_list.append(template.render(
+        device_config = template.render(
             general=general,
             vlans=vlans,
             vrf=vrf,
         )
-    )
         dest_file = args.dest + device_name + ".txt"
         with open(file=dest_file, mode='w') as f:
-            for device in device_list:
-                f.write(device)
-                f.write("\n")
-            print(f"Configuration generated and written to {args.dest}")
+            f.write(device_config)
+            f.write("\n")
+            print(f"Configuration generated and written to {dest_file}")
 
 
 if __name__ == "__main__":
