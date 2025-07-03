@@ -39,6 +39,15 @@ devices:
       remote_as: 64540
       update_source: Vlan201
   vlans:
+  - vlan_id: 100
+    vlan_name: ibgp-peering-fe-ndc
+    vrf: FE
+    vlan_interface_ip: 169.254.1.5
+    vlan_interface_netmask: 255.255.255.252
+  - vlan_id: 200
+    vlan_name: ibgp-peering-be-ndc
+    vlan_interface_ip: 169.254.11.5
+    vlan_interface_netmask: 255.255.255.252
   - vlan_id: 101
     vlan_name: FrontEnd-VLAN-101
     vrf: FE
@@ -47,7 +56,6 @@ devices:
     vlan_interface_netmask: 255.255.255.252
   - vlan_id: 201
     vlan_name: BackEnd-VLAN-201
-    vrf: BE
     vlan_description: Primary backend VLAN for AWS Connectivity
     vlan_interface_ip: 169.254.11.1
     vlan_interface_netmask: 255.255.255.252

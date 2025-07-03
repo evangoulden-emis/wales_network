@@ -11,7 +11,7 @@ interface Ethernet0/1
   description "{{ general.dxcon.description }}" ! # Add DXCON ID
   switchport mode trunk
   switchport trunk allowed vlan {% for vlan in vlans %}{{ vlan.vlan_id }}{% if not loop.last %},{% endif %}{% endfor %}{{'\n'}}
-  bfd interval 50 min_rx 50 multiplier 5
+  bfd interval 300 min_rx 300 multiplier 5
   no shutdown
 
 {% for v in vrf %}
@@ -26,7 +26,9 @@ vlan {{ vlan.vlan_id }}
 
 {% for vlan in vlans %}
 interface vlan {{ vlan.vlan_id }}
-  ip vrf {{ vlan.vrf_name }}
+  {% if vlan.vrf_name %}
+  ip vrf {{ vlan.vrf_name }}
+  {% endif %}
   description "{{ vlan.vlan_description }}"
   ip address {{ vlan.vlan_interface_ip }} {{ vlan.vlan_interface_netmask }}
   no shutdown
@@ -39,15 +41,23 @@ router bgp {{ general.local_bgp_asn }}
   bgp graceful-restart
   timers bgp 10 30
   maximum-paths 4
-  {% for v in vrf %}
-  vrf {{ v.name }}
+
+{% for v in vrf %}
+  {% if v.name == 'BE'%}
     {% for bgp in v.bgp %}
+  neighbor {{bgp.neighbor}}
+    bfd
+    remote-as {{ bgp.remote_as }}
+    update-source {{ bgp.update_source}}
+    address-family ipv4 unicast
+  {% else %}
+  vrf {{ v.name }}
     neighbor {{ bgp.neighbor }}
       bfd
       remote-as {{ bgp.remote_as }}
       update-source {{ bgp.update_source}}
       address-family ipv4 unicast
+      {% endfor %}
+  {% endif %}
 {% endfor %}
-{% endfor %}
-
 
