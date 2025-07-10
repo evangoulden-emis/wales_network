@@ -1,6 +1,3 @@
-feature bgp
-feature interface-vlan
-
 interface loopback100
   ip address 169.254.255.1 255.255.255.255
 
