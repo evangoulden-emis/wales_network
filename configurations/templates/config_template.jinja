@@ -3,15 +3,13 @@ feature interface-vlan
 
 interface {{ general.loopback }}
   ip address {{ general.loopback_ip }} {{ general.loopback_netmask }}
-  ip ospf 1 area 0
-  ip ospf network point-to-point
 
 
-interface Ethernet0/1
-  description "{{ general.dxcon.description }}" ! # Add DXCON ID
+interface {{ general.dxcon.interface }}
+  description "{{ general.dxcon.description }}"
   switchport mode trunk
   switchport trunk allowed vlan {% for vlan in vlans %}{{ vlan.vlan_id }}{% if not loop.last %},{% endif %}{% endfor %}{{'\n'}}
-  bfd interval 300 min_rx 300 multiplier 5
+  bfd interval 300 min_rx 300 multiplier 3
   no shutdown
 
 {% for v in vrf %}
@@ -26,8 +24,8 @@ vlan {{ vlan.vlan_id }}
 
 {% for vlan in vlans %}
 interface vlan {{ vlan.vlan_id }}
-  {% if vlan.vrf_name %}
-  ip vrf {{ vlan.vrf_name }}
+  {% if vlan.vrf %}
+  ip vrf {{ vlan.vrf }}
   {% endif %}
   description "{{ vlan.vlan_description }}"
   ip address {{ vlan.vlan_interface_ip }} {{ vlan.vlan_interface_netmask }}
@@ -43,21 +41,24 @@ router bgp {{ general.local_bgp_asn }}
   maximum-paths 4
 
 {% for v in vrf %}
-  {% if v.name == 'BE'%}
+  {% if v.name == 'AWS-BACKEND' %}
     {% for bgp in v.bgp %}
-  neighbor {{bgp.neighbor}}
+  neighbor {{ bgp.neighbor }}
     bfd
     remote-as {{ bgp.remote_as }}
-    update-source {{ bgp.update_source}}
+    update-source {{ bgp.update_source }}
     address-family ipv4 unicast
+    {% endfor %}
   {% else %}
   vrf {{ v.name }}
+    {% for bgp in v.bgp %}
     neighbor {{ bgp.neighbor }}
       bfd
       remote-as {{ bgp.remote_as }}
-      update-source {{ bgp.update_source}}
+      update-source {{ bgp.update_source }}
       address-family ipv4 unicast
-      {% endfor %}
+    {% endfor %}
   {% endif %}
 {% endfor %}
+
 

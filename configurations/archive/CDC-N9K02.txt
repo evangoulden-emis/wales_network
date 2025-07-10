@@ -12,7 +12,7 @@ interface Ethernet0/1
   switchport mode trunk
   switchport trunk allowed vlan 104,204
 
-  bfd interval 50 min_rx 50 multiplier 5
+  bfd interval 300 min_rx 300 multiplier 5
   no shutdown
 
 vrf context FE
@@ -40,22 +40,10 @@ router bgp 64522
   bgp graceful-restart
   timers bgp 10 30
   maximum-paths 4
-  vrf FE
-    neighbor 169.254.255.3
-      bfd
-      remote-as 64522
-      update-source loopback100
-      address-family ipv4 unicast
-    neighbor 169.254.4.2
-      bfd
-      remote-as 64530
-      update-source Vlan104
-      address-family ipv4 unicast
-  vrf BE
-    neighbor 169.254.14.2
-      bfd
-      remote-as 64540
-      update-source Vlan204
-      address-family ipv4 unicast
 
+  neighbor 169.254.14.2
+    bfd
+    remote-as 64540
+    update-source Vlan204
+    address-family ipv4 unicast
 

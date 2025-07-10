@@ -3,40 +3,34 @@ feature interface-vlan
 
 interface loopback100
   ip address 169.254.255.1 255.255.255.255
-  ip ospf 1 area 0
-  ip ospf network point-to-point
 
 
-interface Ethernet0/1
-  description "dhcw-ndc-dxcon-01" ! # Add DXCON ID
+interface Ethernet1/39
+  description "dhcw-ndc-dxcon-01-dxcon-fgmukyas"
   switchport mode trunk
-  switchport trunk allowed vlan 100,200,101,201
+  switchport trunk allowed vlan 100,101,201
 
-  bfd interval 300 min_rx 300 multiplier 5
+  bfd interval 300 min_rx 300 multiplier 3
   no shutdown
 
-vrf context FE
-vrf context BE
+vrf context AWS-FRONTEND
+vrf context AWS-BACKEND
 
 
 vlan 100
   name ibgp-peering-fe-ndc
-vlan 200
-  name ibgp-peering-be-ndc
 vlan 101
   name FrontEnd-VLAN-101
 vlan 201
   name BackEnd-VLAN-201
 
 interface vlan 100
-  description ""
-  ip address 169.254.1.5 255.255.255.252
-  no shutdown
-interface vlan 200
-  description ""
-  ip address 169.254.11.5 255.255.255.252
+  ip vrf AWS-FRONTEND
+  description "ibgp-peering-fe-ndc"
+  ip address 169.254.31.1 255.255.255.252
   no shutdown
 interface vlan 101
+  ip vrf AWS-FRONTEND
   description "Primary frontend VLAN for AWS Connectivity"
   ip address 169.254.1.1 255.255.255.252
   no shutdown
@@ -53,9 +47,21 @@ router bgp 64521
   timers bgp 10 30
   maximum-paths 4
 
+  vrf AWS-FRONTEND
+    neighbor 169.254.31.2
+      bfd
+      remote-as 64521
+      update-source Vlan100
+      address-family ipv4 unicast
+    neighbor 169.254.1.2
+      bfd
+      remote-as 64530
+      update-source Vlan101
+      address-family ipv4 unicast
   neighbor 169.254.11.2
     bfd
     remote-as 64540
     update-source Vlan201
     address-family ipv4 unicast
+
 
