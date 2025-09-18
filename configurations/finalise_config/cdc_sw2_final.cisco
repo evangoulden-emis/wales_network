@@ -2,7 +2,7 @@
 # Frontend Switch configuration
 ## TODO: Prefix Lists and Route Maps for controlling BGP advertisements inbound and outbound.
 ip prefix-list WALES-AWS-PFX seq 10 permit 10.63.92.0/22
-ip prefix-list WALES-AWS-PFX seq 20 permit 10.63.105.0/26
+ip prefix-list WALES-AWS-PFX seq 20 permit 10.63.104.0/23
 
 route-map IMPORT-AWS-PFX permit 10
   match ip address prefix-list WALES-AWS-PFX
@@ -21,15 +21,10 @@ route-map FE-SW-IBGP-PFX permit 20
 
 
 # TODO: Updated BGP configuration to include BFD for faster failure detection
+# TODO: Add BGP neighbor for frontend interconnect to EMIS (Palo Alto)
+# TODO: Added route-maps to control inbound and outbound advertisements
+# TODO: Add password to AWS VRF peerings
 router bgp 64522
-  router-id 169.254.255.4
-  log-neighbor-changes
-  address-family ipv4 unicast
-  neighbor 169.254.14.2
-    bfd
-    remote-as 64540
-    update-source Vlan104
-    address-family ipv4 unicast
   vrf AWS-FRONTEND
     address-family ipv4 unicast
     neighbor 169.254.4.2
@@ -38,23 +33,80 @@ router bgp 64522
       password 3 424c6bf33bd394c4b5b661c9ce9e666f7e425c5e083dfa96
       update-source Vlan104
       address-family ipv4 unicast
+        route-map IMPORT-AWS-PFX in
+		    route-map EXPORT-WALES-DEFAULT-PFX out
     neighbor 169.254.32.1
       bfd
       remote-as 64522
       update-source Vlan100
       address-family ipv4 unicast
+        route-map FE-SW-IBGP-PFX in
+		    route-map FE-SW-IBGP-PFX out
         next-hop-self
     neighbor 169.254.42.3
       bfd
       remote-as 65422
       update-source Vlan3102
       address-family ipv4 unicast
+        route-map EXPORT-WALES-DEFAULT-PFX in
+		    route-map IMPORT-AWS-PFX out
 
+## TODO: BFD configuration on the relevant interfaces
+## TODO: Check all VLANs for BFD configuration
+interface Vlan100
+  description "ibgp-peering-fe-cdc"
+  no shutdown
+  bfd interval 300 min_rx 300 multiplier 3
 
+## TODO: Create and configure the interconnect interface to EMIS
+## TODO: Add BFD configuration
 interface Vlan3102
-  description EMIS_FE_INTERCONNECT
+  bfd interval 300 min_rx 300 multiplier 3
+  description EMIS_FE_INTERCONNECT_PALO
   no shutdown
   vrf member AWS-FRONTEND
   no ip redirects
   ip address 169.254.42.2/29
   no ipv6 redirects
+
+
+# Backend Switch configuration
+## TODO: Prefix Lists and Route Maps for controlling BGP advertisements inbound and outbound.
+ip prefix-list CDC-BE-DIRECT-PFX seq 10 permit 10.63.74.128/25 # CDC Private Subnet 1
+ip prefix-list CDC-BE-DIRECT-PFX seq 20 permit 10.63.80.66/26 # CDC Private Subnet 2
+ip prefix-list CDC-BE-DIRECT-PFX seq 30 permit 10.63.73.96/27 # CDC Backup Subnet 1
+ip prefix-list CDC-BE-DIRECT-PFX seq 40 permit 10.63.72.0/25 # CDC MGMT Subnet 1
+ip prefix-list CDC-BE-DIRECT-PFX seq 50 permit 10.63.80.0/26 # CDC MGMT Subnet 2
+
+route-map REDIST-CDC-BE-DIRECT-PFX permit 10
+  match ip address prefix-list CDC-BE-DIRECT-PFX
+
+## TODO: Prefix List and Route Map for controlling BGP advertisements outbound to AWS
+ip prefix-list CDC-BE-SUMMARY-PFX seq 10 permit 10.63.72.0/22
+ip prefix-list CDC-BE-SUMMARY-PFX seq 20 permit 10.63.80.0/24
+
+route-map EXPORT-CDC-BE-PFX permit 10
+  match ip address prefix-list CDC-BE-SUMMARY-PFX
+
+# TODO: Updated BGP configuration to include BFD for faster failure detection
+interface Vlan204
+  bfd interval 300 min_rx 300 multiplier 3
+  no shutdown
+
+# TODO: Updated BGP configuration to include BFD for faster failure detection
+# TODO: Added route-maps to control inbound and outbound advertisements
+# TODO: Aggregate addresses for summarization of on-premises networks
+router bgp 64522
+  router-id 169.254.255.4
+  log-neighbor-changes
+  address-family ipv4 unicast
+    redistribute direct route-map REDIST-CDC-BE-DIRECT-PFX
+    aggregate-address 10.63.72.0/22 summary-only
+    aggregate-address 10.63.80.0/24 summary-only
+  neighbor 169.254.14.2
+    bfd
+    remote-as 64540
+    update-source Vlan204
+    address-family ipv4 unicast
+      route-map IMPORT-AWS-PFX in
+      route-map EXPORT-NDC-BE-PFX out
