@@ -1,0 +1,78 @@
+Apply to CDC SWITCH 1 and 2
+
+ip prefix-list CONNECTED-NDC seq 10 permit 10.63.76.128/25
+ip prefix-list CONNECTED-NDC seq 20 permit 10.63.77.0/27
+ip prefix-list CONNECTED-NDC seq 30 permit 10.63.77.32/27
+ip prefix-list CONNECTED-NDC seq 40 permit 10.63.77.96/27
+ip prefix-list CONNECTED-NDC seq 50 permit 10.63.78.0/25
+ip prefix-list CONNECTED-NDC seq 60 permit 10.63.78.128/25
+ip prefix-list CONNECTED-NDC seq 70 permit 10.63.79.0/26
+ip prefix-list CONNECTED-NDC seq 80 permit 10.63.79.64/29
+ip prefix-list CONNECTED-NDC seq 90 permit 10.63.79.96/28
+ip prefix-list CONNECTED-NDC seq 100 permit 10.63.81.64/26
+ip prefix-list CONNECTED-NDC seq 110 permit 10.63.85.152/29
+ip prefix-list CONNECTED-NDC seq 120 permit 10.63.207.128/25
+ip prefix-list CONNECTED-NDC seq 130 permit 10.63.208.0/25
+ip prefix-list CONNECTED-NDC seq 140 permit 10.63.208.128/25
+ip prefix-list CONNECTED-NDC seq 150 permit 10.63.209.128/27
+ip prefix-list CONNECTED-NDC seq 160 permit 10.63.209.160/27
+ip prefix-list CONNECTED-NDC seq 170 permit 10.63.209.224/27
+
+
+route-map REDIST-CONNECTED-NDC permit 10
+  match ip address prefix-list CONNECTED-NDC
+  set metric 100
+
+
+route-map AWS-BACKEND permit 10
+  match ip address prefix-list CONNECTED-NDC
+
+
+router bgp 64522
+  vrf AWS-FRONTEND
+    address-family ipv4 unicast
+      redistribute connected route-map REDIST-CONNECTED-NDC
+
+  neighbor 169.254.11.2 and 169.254.12.2
+    remote-as 64540
+    update-source Vlan204
+    address-family ipv4 unicast
+      route-map AWS-BACKEND out
+
+*****************************
+Apply to CDC SWITCH 1 and 2
+ip prefix-list CONNECTED-CDC seq 10 permit 10.63.72.128/25
+ip prefix-list CONNECTED-CDC seq 20 permit 10.63.73.0/27
+ip prefix-list CONNECTED-CDC seq 30 permit 10.63.73.32/27
+ip prefix-list CONNECTED-CDC seq 40 permit 10.63.73.96/27
+ip prefix-list CONNECTED-CDC seq 50 permit 10.63.74.0/25
+ip prefix-list CONNECTED-CDC seq 60 permit 10.63.74.128/25
+ip prefix-list CONNECTED-CDC seq 70 permit 10.63.75.0/26
+ip prefix-list CONNECTED-CDC seq 80 permit 10.63.75.64/29
+ip prefix-list CONNECTED-CDC seq 90 permit 10.63.75.96/28
+ip prefix-list CONNECTED-CDC seq 100 permit 10.63.80.64/26
+ip prefix-list CONNECTED-CDC seq 110 permit 10.63.84.152/29
+ip prefix-list CONNECTED-CDC seq 120 permit 10.63.211.0/25
+ip prefix-list CONNECTED-CDC seq 130 permit 10.63.211.128/25
+ip prefix-list CONNECTED-CDC seq 140 permit 10.63.212.128/27
+ip prefix-list CONNECTED-CDC seq 150 permit 10.63.212.160/27
+ip prefix-list CONNECTED-CDC seq 160 permit 10.63.212.224/27
+
+
+route-map REDIST-CONNECTED-CDC permit 10
+  match ip address prefix-list CONNECTED-CDC
+  set metric 100
+
+
+route-map AWS-BACKEND-OUT permit 10
+  match ip address prefix-list CONNECTED-CDC
+
+
+router bgp 64522
+  vrf AWS-FRONTEND
+    address-family ipv4 unicast
+      redistribute connected route-map REDIST-CONNECTED-CDC
+
+  neighbor 169.254.13.2 & 169.254.14.2
+    address-family ipv4 unicast
+      route-map AWS-BACKEND-OUT out
