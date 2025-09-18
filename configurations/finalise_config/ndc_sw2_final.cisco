@@ -1,0 +1,25 @@
+router bgp 64521
+  router-id 169.254.255.2
+  log-neighbor-changes
+  address-family ipv4 unicast
+  neighbor 169.254.12.2
+    bfd
+    remote-as 64540
+    update-source Vlan202
+    address-family ipv4 unicast
+  vrf AWS-FRONTEND
+    neighbor 169.254.2.2
+      bfd
+      remote-as 64530
+      password 3 f94784371985a6595a7adb6c4d21f58b684d021262138f06
+      update-source Vlan102
+      address-family ipv4 unicast
+    neighbor 169.254.31.1
+      remote-as 64521
+      update-source Vlan100
+      address-family ipv4 unicast
+        next-hop-self
+    neighbor 169.254.41.3
+      remote-as 65421
+      update-source Vlan3101
+      address-family ipv4 unicast

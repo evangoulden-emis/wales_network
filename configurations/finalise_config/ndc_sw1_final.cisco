@@ -1,0 +1,101 @@
+
+# Frontend Switch configuration
+## TODO: Prefix Lists and Route Maps for controlling BGP advertisements inbound and outbound.
+ip prefix-list WALES-AWS-PFX seq 10 permit 10.63.92.0/22
+ip prefix-list WALES-AWS-PFX seq 20 permit 10.63.104.0/23
+
+route-map IMPORT-AWS-PFX permit 10
+  match ip address prefix-list WALES-AWS-PFX
+
+ip prefix-list WALES-DEFAULT-PFX seq 10 permit 0.0.0.0/0
+
+route-map EXPORT-WALES-DEFAULT-PFX permit 10
+  match ip address prefix-list WALES-DEFAULT-PFX
+
+## TODO: Route map for controlling IBGP advertisements to the FE VRF 
+## Reusing the same prefix lists as above
+route-map FE-SW-IBGP-PFX permit 10
+  match ip address prefix-list WALES-AWS-PFX
+route-map FE-SW-IBGP-PFX permit 20
+  match ip address prefix-list WALES-DEFAULT-PFX
+
+
+# TODO: Updated BGP configuration to include BFD for faster failure detection
+router bgp 64521
+  vrf AWS-FRONTEND
+    address-family ipv4 unicast
+    neighbor 169.254.1.2
+      bfd
+      remote-as 64530
+      password 3 424c6bf33bd394c4b5b661c9ce9e666f7e425c5e083dfa96
+      update-source Vlan101
+      address-family ipv4 unicast
+        route-map IMPORT-AWS-PFX in
+		    route-map EXPORT-WALES-DEFAULT-PFX out
+    neighbor 169.254.31.2
+      bfd
+      remote-as 64521
+      update-source Vlan100
+      address-family ipv4 unicast
+        route-map FE-SW-IBGP-PFX in
+		    route-map FE-SW-IBGP-PFX out
+        next-hop-self
+    neighbor 169.254.41.3
+      bfd
+      remote-as 65421
+      update-source Vlan3101
+      address-family ipv4 unicast
+        route-map EXPORT-WALES-DEFAULT-PFX in
+		    route-map IMPORT-AWS-PFX out
+
+## TODO: BFD configuration on the relevant interfaces
+## TODO: Check all VLANs for BFD configuration
+interface Vlan100
+  description "ibgp-peering-fe-ndc"
+  no shutdown
+  bfd interval 300 min_rx 300 multiplier 3
+
+interface Vlan3101
+  bfd interval 300 min_rx 300 multiplier 3
+
+
+
+# Backend Switch configuration
+## TODO: Prefix Lists and Route Maps for controlling BGP advertisements inbound and outbound.
+ip prefix-list NDC-BE-DIRECT-PFX seq 10 permit 10.63.78.128/25 # NDC Private Subnet 1
+ip prefix-list NDC-BE-DIRECT-PFX seq 20 permit 10.63.81.64/26 # NDC Private Subnet 2
+ip prefix-list NDC-BE-DIRECT-PFX seq 30 permit 10.63.77.96/27 # NDC Backup Subnet 1
+ip prefix-list NDC-BE-DIRECT-PFX seq 40 permit 10.63.76.0/25 # NDC MGMT Subnet 1
+ip prefix-list NDC-BE-DIRECT-PFX seq 50 permit 10.63.81.0/26 # NDC MGMT Subnet 2
+
+route-map REDIST-NDC-BE-DIRECT-PFX permit 10
+  match ip address prefix-list NDC-BE-DIRECT-PFX
+
+## TODO: Prefix List and Route Map for controlling BGP advertisements outbound to AWS
+ip prefix-list NDC-BE-SUMMARY-PFX seq 10 permit 10.63.76.0/22
+ip prefix-list NDC-BE-SUMMARY-PFX seq 20 permit 10.63.81.0/24
+
+route-map EXPORT-NDC-BE-PFX permit 10
+  match ip address prefix-list NDC-BE-SUMMARY-PFX
+
+# TODO: Updated BGP configuration to include BFD for faster failure detection
+interface Vlan201
+  bfd interval 300 min_rx 300 multiplier 3
+  no shutdown
+
+# TODO: Ensure VLAN 201 is allowed on the trunk to AWS DXCON for backend communications
+interface Ethernet1/39
+  switchport trunk allowed vlan add 201
+
+# TODO: Updated BGP configuration to include BFD for faster failure detection
+# TODO: Added route-maps to control inbound and outbound advertisements
+# TODO: Aggregate addresses for summarization of on-premises networks
+router bgp 64521
+  address-family ipv4 unicast
+    redistribute direct route-map REDIST-NDC-BE-DIRECT-PFX
+    aggregate-address 10.63.76.0/22 summary-only
+    aggregate-address 10.63.81.0/24 summary-only
+  neighbor 169.254.11.2
+    address-family ipv4 unicast
+     route-map IMPORT-AWS-PFX in
+     route-map EXPORT-NDC-BE-PFX out

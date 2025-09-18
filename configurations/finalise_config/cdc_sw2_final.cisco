@@ -1,0 +1,60 @@
+
+# Frontend Switch configuration
+## TODO: Prefix Lists and Route Maps for controlling BGP advertisements inbound and outbound.
+ip prefix-list WALES-AWS-PFX seq 10 permit 10.63.92.0/22
+ip prefix-list WALES-AWS-PFX seq 20 permit 10.63.105.0/26
+
+route-map IMPORT-AWS-PFX permit 10
+  match ip address prefix-list WALES-AWS-PFX
+
+ip prefix-list WALES-DEFAULT-PFX seq 10 permit 0.0.0.0/0
+
+route-map EXPORT-WALES-DEFAULT-PFX permit 10
+  match ip address prefix-list WALES-DEFAULT-PFX
+
+## TODO: Route map for controlling IBGP advertisements to the FE VRF 
+## Reusing the same prefix lists as above
+route-map FE-SW-IBGP-PFX permit 10
+  match ip address prefix-list WALES-AWS-PFX
+route-map FE-SW-IBGP-PFX permit 20
+  match ip address prefix-list WALES-DEFAULT-PFX
+
+
+# TODO: Updated BGP configuration to include BFD for faster failure detection
+router bgp 64522
+  router-id 169.254.255.4
+  log-neighbor-changes
+  address-family ipv4 unicast
+  neighbor 169.254.14.2
+    bfd
+    remote-as 64540
+    update-source Vlan104
+    address-family ipv4 unicast
+  vrf AWS-FRONTEND
+    address-family ipv4 unicast
+    neighbor 169.254.4.2
+      bfd
+      remote-as 64530
+      password 3 424c6bf33bd394c4b5b661c9ce9e666f7e425c5e083dfa96
+      update-source Vlan104
+      address-family ipv4 unicast
+    neighbor 169.254.32.1
+      bfd
+      remote-as 64522
+      update-source Vlan100
+      address-family ipv4 unicast
+        next-hop-self
+    neighbor 169.254.42.3
+      bfd
+      remote-as 65422
+      update-source Vlan3102
+      address-family ipv4 unicast
+
+
+interface Vlan3102
+  description EMIS_FE_INTERCONNECT
+  no shutdown
+  vrf member AWS-FRONTEND
+  no ip redirects
+  ip address 169.254.42.2/29
+  no ipv6 redirects
