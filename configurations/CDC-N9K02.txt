@@ -11,7 +11,8 @@ interface Ethernet1/39
   no shutdown
 
 vrf context AWS-FRONTEND
-vrf context AWS-BACKEND
+  description FrontEnd connectivity for AWS
+
 
 
 vlan 100
@@ -22,20 +23,17 @@ vlan 204
   name BackEnd-VLAN-204
 
 interface vlan 100
-  ip vrf AWS-FRONTEND
+  vrf member AWS-FRONTEND
   description "ibgp-peering-fe-cdc"
   ip address 169.254.32.2 255.255.255.252
-  no shutdown
 interface vlan 104
-  ip vrf AWS-FRONTEND
+  vrf member AWS-FRONTEND
   description "Primary frontend VLAN for AWS Connectivity"
   ip address 169.254.4.1 255.255.255.252
-  no shutdown
 interface vlan 204
-  ip vrf AWS-BACKEND
   description "Primary backend VLAN for AWS Connectivity"
   ip address 169.254.14.1 255.255.255.252
-  no shutdown
+
 
 
 router bgp 64522

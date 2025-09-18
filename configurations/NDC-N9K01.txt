@@ -6,12 +6,11 @@ interface Ethernet1/39
   description "dhcw-ndc-dxcon-01-dxcon-fgmukyas"
   switchport mode trunk
   switchport trunk allowed vlan 100,101,201
-
   bfd interval 300 min_rx 300 multiplier 3
   no shutdown
 
 vrf context AWS-FRONTEND
-vrf context AWS-BACKEND
+  description FrontEnd connectivity for AWS
 
 
 vlan 100
@@ -22,19 +21,19 @@ vlan 201
   name BackEnd-VLAN-201
 
 interface vlan 100
-  ip vrf AWS-FRONTEND
+  vrf member AWS-FRONTEND
   description "ibgp-peering-fe-ndc"
   ip address 169.254.31.1 255.255.255.252
   no shutdown
 interface vlan 101
-  ip vrf AWS-FRONTEND
+  vrf member AWS-FRONTEND
   description "Primary frontend VLAN for AWS Connectivity"
   ip address 169.254.1.1 255.255.255.252
-  no shutdown
+ 
 interface vlan 201
   description "Primary backend VLAN for AWS Connectivity"
   ip address 169.254.11.1 255.255.255.252
-  no shutdown
+  
 
 
 router bgp 64521
