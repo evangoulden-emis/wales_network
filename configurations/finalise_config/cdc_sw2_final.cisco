@@ -128,7 +128,7 @@ router bgp 64522
     remote-as 64522
     update-source Vlan200
     address-family ipv4 unicast
-      route-map FE-SW-IBGP-PFX in
-      route-map FE-SW-IBGP-PFX out
+      route-map IMPORT-AWS-PFX in
+      route-map EXPORT-NDC-BE-PFX out
       next-hop-self
   
