@@ -20,6 +20,8 @@ route-map FE-SW-IBGP-PFX permit 20
   match ip address prefix-list WALES-DEFAULT-PFX
 
 
+
+
 # TODO: Updated BGP configuration to include BFD for faster failure detection
 # TODO: Add BGP neighbor for frontend interconnect to EMIS (Palo Alto)
 # TODO: Added route-maps to control inbound and outbound advertisements
@@ -88,6 +90,18 @@ ip prefix-list CDC-BE-SUMMARY-PFX seq 20 permit 10.63.80.0/24
 route-map EXPORT-CDC-BE-PFX permit 10
   match ip address prefix-list CDC-BE-SUMMARY-PFX
 
+
+## TODO: Create VLAN 200 for backend iBGP peering
+interface Vlan200
+  bfd interval 300 min_rx 300 multiplier 3
+  description "ibgp-peering-be-cdc"
+  no shutdown
+  vrf member AWS-FRONTEND
+  no ip redirects
+  ip address 169.254.34.1/30
+  no ipv6 redirects
+
+
 # TODO: Updated BGP configuration to include BFD for faster failure detection
 interface Vlan203
   bfd interval 300 min_rx 300 multiplier 3
@@ -96,6 +110,7 @@ interface Vlan203
 # TODO: Updated BGP configuration to include BFD for faster failure detection
 # TODO: Added route-maps to control inbound and outbound advertisements
 # TODO: Aggregate addresses for summarization of on-premises networks
+# TODO: Add BGP neighbor for backend iBGP interconnect to CDC
 router bgp 64522
   router-id 169.254.255.3
   log-neighbor-changes
@@ -110,4 +125,12 @@ router bgp 64522
     address-family ipv4 unicast
       route-map IMPORT-AWS-PFX in
       route-map EXPORT-NDC-BE-PFX out
+    neighbor 169.254.34.2
+    bfd
+    remote-as 64522
+    update-source Vlan200
+    address-family ipv4 unicast
+      route-map FE-SW-IBGP-PFX in
+      route-map FE-SW-IBGP-PFX out
+      next-hop-self
 
